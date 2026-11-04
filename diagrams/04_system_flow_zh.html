@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>图 3-Y 系统端到端运行流程图（中文）</title>
+<style>
+:root{--bg:#fff;--surface:#F7F8FA;--border:#D9DDE3;--text:#1D2433;--text-muted:#5B6472;--brand:#7C5CFF;--series1:#7C5CFF;--series2:#1FB4A0;--series3:#F2A93B;--series4:#4F8CFF;--radius:12px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);padding:24px;font-family:"Microsoft YaHei",system-ui,"PingFang SC","Segoe UI",sans-serif;}
+.t{font:600 22px/30px "Microsoft YaHei",system-ui;margin:0 0 10px 0;}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px;font-size:14px;}
+.legend .chip{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:999px;background:var(--surface);color:var(--text-muted);border:1px solid #E7EAF0;}
+.legend .dot{width:14px;height:14px;border-radius:50%;}
+.wrap{width:100%;max-width:1400px;}
+svg{width:100%;height:auto;display:block;}
+.nt{font:600 14px "Microsoft YaHei",system-ui;fill:var(--text);}
+.ns{font:12px "Microsoft YaHei",system-ui;fill:var(--text-muted);}
+.sm{font:11px "Microsoft YaHei",system-ui;fill:var(--text);}
+.tt{font:700 16px "Microsoft YaHei",system-ui;fill:var(--text);}
+</style>
+</head><body>
+<p class="t">图 3-Y 系统端到端运行流程图（中文版）</p>
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--series4)"></span>用户 / 前端</span>
+  <span class="chip"><span class="dot" style="background:var(--series1)"></span>后端服务</span>
+  <span class="chip"><span class="dot" style="background:var(--series2)"></span>外部平台</span>
+  <span class="chip"><span class="dot" style="background:var(--series3)"></span>优化核心</span>
+</div>
+<div class="wrap">
+<svg viewBox="0 0 980 780" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="a4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--text-muted)"/></marker>
+<marker id="a4b" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--brand)"/></marker>
+<marker id="a4a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series2)"/></marker>
+<marker id="a4w" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series3)"/></marker>
+<filter id="sf4" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity=".06"/></filter>
+</defs>
+<rect x="20" y="20" width="940" height="175" rx="14" fill="var(--surface)" stroke="var(--series4)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="44">第三层 · 应用服务层（Vue3 + Vite 前端）</text>
+<g transform="translate(36,72)"><rect width="175" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">① 输入兴趣点 + 选择模式</text>
+<text class="ns" x="10" y="40">最短 / 均衡 / 空气最好</text></g>
+<g transform="translate(235,72)"><rect width="140" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">② 地理编码</text>
+<text class="ns" x="10" y="40">地点名 → 经纬度</text></g>
+<g transform="translate(405,72)"><rect width="165" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">③ POST /api/plan</text>
+<text class="ns" x="10" y="40">坐标 + α, β 权重</text></g>
+<g transform="translate(760,64)"><rect width="180" height="90" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf4)"/>
+<rect x="8" y="8" width="48" height="16" rx="8" fill="var(--series4)" opacity=".12"/>
+<text class="sm" x="32" y="20" text-anchor="middle" fill="var(--series4)" style="font-weight:700">界面</text>
+<text class="nt" x="10" y="46">⑩ 渲染结果到地图</text>
+<text class="ns" x="10" y="62">路线 + 评分 + 建议</text>
+<text class="sm" x="10" y="78">高德 JS API 实时绘制</text></g>
+<path d="M 211 101 L 235 101" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a4)" stroke-linecap="round"/>
+<path d="M 375 101 L 405 101" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a4)" stroke-linecap="round"/>
+<path d="M 487 130 L 487 210" fill="none" stroke="var(--series1)" stroke-width="1.7" marker-end="url(#a4)" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text class="sm" x="494" y="176" fill="var(--series1)" style="font-weight:600">JSON 请求</text>
+<rect x="20" y="210" width="940" height="195" rx="14" fill="var(--surface)" stroke="var(--series1)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="234">第二层 · 优化决策层（Flask 后端）</text>
+<g transform="translate(36,262)"><rect width="150" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">④ 请求校验与解析</text>
+<text class="ns" x="10" y="40">解析参数</text></g>
+<g transform="translate(210,262)"><rect width="170" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">⑤ 获取距离/AQI矩阵</text>
+<text class="ns" x="10" y="40">RoutePlanner 类方法</text></g>
+<g transform="translate(405,262)"><rect width="160" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">⑥ 构建综合成本矩阵</text>
+<text class="ns" x="10" y="40">归一化 + 加权求和</text></g>
+<g transform="translate(590,250)"><rect width="210" height="90" rx="8" fill="var(--bg)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf4)"/>
+<rect x="8" y="8" width="100" height="16" rx="8" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="58" y="20" text-anchor="middle" fill="var(--series3)" style="font-weight:700">核心 · TSP求解</text>
+<text class="nt" x="10" y="44">⑦ 求解最优节点顺序</text>
+<text class="ns" x="10" y="60">n≤10: C++ SCDP</text>
+<text class="ns" x="10" y="74">n≤8: Py SCDP</text>
+<text class="ns" x="10" y="86">其他: 贪心+2-opt</text></g>
+<g transform="translate(800,262)"><rect width="140" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="22">⑧ JSON 响应</text>
+<text class="ns" x="10" y="40">路径/距离/AQI/评分</text></g>
+<path d="M 186 291 L 210 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a4)" stroke-linecap="round"/>
+<path d="M 380 291 L 405 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a4)" stroke-linecap="round"/>
+<path d="M 565 291 L 590 291" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#a4w)" stroke-linecap="round"/>
+<path d="M 775 291 L 800 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a4)" stroke-linecap="round"/>
+<path d="M 110 320 L 110 420" fill="none" stroke="var(--series2)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a4a)"/>
+<text class="sm" x="116" y="376" fill="var(--series2)" style="font-weight:600">请求</text>
+<path d="M 295 320 L 295 420" fill="none" stroke="var(--series2)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a4a)"/>
+<rect x="20" y="420" width="940" height="160" rx="14" fill="var(--surface)" stroke="var(--series2)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="444">第一层 · 数据采集层（外部 API）</text>
+<g transform="translate(36,470)"><rect width="220" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf4)"/>
+<rect x="8" y="8" width="62" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="39" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">地图API</text>
+<text class="nt" x="10" y="44">高德地理编码 / 驾车路线</text>
+<text class="ns" x="10" y="60">返回经纬度 · 距离 · 时间</text></g>
+<g transform="translate(290,470)"><rect width="220" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf4)"/>
+<rect x="8" y="8" width="84" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="50" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">环境监测API</text>
+<text class="nt" x="10" y="44">空气质量监测平台</text>
+<text class="ns" x="10" y="60">返回分路段 AQI 序列</text></g>
+<g transform="translate(544,470)"><rect width="200" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf4)"/>
+<rect x="8" y="8" width="62" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="39" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">用户输入</text>
+<text class="nt" x="10" y="44">路线偏好与权重参数</text>
+<text class="ns" x="10" y="60">α, β 模式选择</text></g>
+<path d="M 146 470 L 146 360 L 110 360 L 110 320" fill="none" stroke="var(--series2)" stroke-width="1.5" marker-end="url(#a4a)" stroke-linecap="round"/>
+<text class="sm" x="152" y="400" fill="var(--series2)" style="font-weight:600">D 矩阵</text>
+<path d="M 400 470 L 400 380 L 295 380 L 295 320" fill="none" stroke="var(--series2)" stroke-width="1.5" marker-end="url(#a4a)" stroke-linecap="round"/>
+<text class="sm" x="350" y="372" fill="var(--series2)" style="font-weight:600">A 矩阵</text>
+<path d="M 870 262 L 870 210 L 850 210 L 850 155" fill="none" stroke="var(--series1)" stroke-width="1.7" marker-end="url(#a4)" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text class="sm" x="855" y="195" fill="var(--series1)" style="font-weight:600">响应</text>
+<rect x="20" y="600" width="940" height="170" rx="14" fill="var(--surface)" stroke="var(--brand)" stroke-width="1.7" opacity=".9"/>
+<text class="tt" x="36" y="624" fill="var(--brand)">最终结果展示</text>
+<path d="M 850 155 L 850 600" fill="none" stroke="var(--brand)" stroke-width="1.7" marker-end="url(#a4b)" stroke-linecap="round" stroke-dasharray="5 4" opacity=".7"/>
+<g transform="translate(36,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="24">⑪ TSP 最优访问顺序</text>
+<text class="ns" x="10" y="42">节点排列（全局最优）</text>
+<text class="sm" x="10" y="60">如：天府广场 → 春熙路 → …</text></g>
+<g transform="translate(270,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="24">⑫ 核心指标</text>
+<text class="ns" x="10" y="42">总距离 · AQI暴露总量</text>
+<text class="sm" x="10" y="60">预计耗时 · 综合成本</text></g>
+<g transform="translate(504,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="24">⑬ 健康评分与等级</text>
+<text class="ns" x="10" y="42">优 / 良 / 差</text>
+<text class="sm" x="10" y="60">评分数值 + 色标徽章</text></g>
+<g transform="translate(738,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf4)"/>
+<text class="nt" x="10" y="24">⑭ 导航建议</text>
+<text class="ns" x="10" y="42">口罩建议 · 开窗提示</text>
+<text class="sm" x="10" y="60">替代路径 · 敏感人群提醒</text></g>
+</svg>
+</div>
+</body></html>

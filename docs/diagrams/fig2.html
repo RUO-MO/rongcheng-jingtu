@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>图2</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Microsoft YaHei",sans-serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    ROOT[系统功能模块]
+    ROOT --> M1[用户交互模块]
+    ROOT --> M2[数据服务模块]
+    ROOT --> M3[TSP优化模块]
+    ROOT --> M4[结果展示模块]
+    M1 --> M1A[地点输入]
+    M1 --> M1B[路线偏好选择]
+    M2 --> M2A[地理坐标获取]
+    M2 --> M2B[空气质量数据获取]
+    M3 --> M3A[状态压缩动态规划求解]
+    M3 --> M3B[AQI加权综合排序]
+    M3 --> M3C[多节点访问顺序优化]
+    M4 --> M4A[推荐导航路线展示]
+    M4 --> M4B[路线健康评分展示]
+    style ROOT fill:#1f2937,stroke:#1f2937,color:#fff
+    style M1 fill:#3b82f6,color:#fff
+    style M2 fill:#10b981,color:#fff
+    style M3 fill:#f59e0b,color:#fff
+    style M4 fill:#ef4444,color:#fff
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Microsoft YaHei",sans-serif',fontSize:'16px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:20,nodeSpacing:50,rankSpacing:50}});</script>
+</body></html>

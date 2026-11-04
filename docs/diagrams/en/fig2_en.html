@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Fig.2</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Times New Roman",serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    ROOT["System Function Modules"]
+    ROOT --> M1["User Interaction Module"]
+    ROOT --> M2["Data Service Module"]
+    ROOT --> M3["TSP Optimization Module"]
+    ROOT --> M4["Result Display Module"]
+    M1 --> M1A["Location Input"]
+    M1 --> M1B["Route Preference Selection"]
+    M2 --> M2A["Geographic Coordinate Acquisition"]
+    M2 --> M2B["Air Quality Data Acquisition"]
+    M3 --> M3A["SCDP Solver"]
+    M3 --> M3B["AQI-Weighted Ranking"]
+    M3 --> M3C["Multi-node Visiting Order Optimization"]
+    M4 --> M4A["Recommended Route Display"]
+    M4 --> M4B["Route Health Score Display"]
+    style ROOT fill:#1f2937,stroke:#1f2937,color:#fff
+    style M1 fill:#3b82f6,color:#fff
+    style M2 fill:#10b981,color:#fff
+    style M3 fill:#f59e0b,color:#fff
+    style M4 fill:#ef4444,color:#fff
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Times New Roman",serif',fontSize:'15px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:15,nodeSpacing:40,rankSpacing:40}});</script>
+</body></html>

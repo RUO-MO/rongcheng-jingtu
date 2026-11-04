@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>图4</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Microsoft YaHei",sans-serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    subgraph S1[阶段一:用户需求输入]
+        A1[输入起始位置]
+        A2[输入多个目标地点]
+        A3[选择优化模式]
+    end
+    subgraph S2[阶段二:数据获取]
+        B1[获取地理坐标]
+        B2[获取道路距离]
+        B3[获取环境空气质量信息]
+    end
+    subgraph S3[阶段三:TSP优化]
+        C1[构建多节点优化任务]
+        C2[调用TSP求解模块]
+        C3[获得最佳访问顺序]
+    end
+    subgraph S4[阶段四:路径评价]
+        D1[计算出行成本]
+        D2[评估污染暴露]
+        D3[评估健康适宜性]
+    end
+    subgraph S5[阶段五:结果输出]
+        E1[展示推荐路线]
+        E2[展示最优访问顺序]
+        E3[展示健康评分]
+        E4[展示防护建议]
+    end
+    A1 --> B1
+    A2 --> B1
+    A3 --> C1
+    B1 --> C1
+    B2 --> C1
+    B3 --> C2
+    C1 --> C2
+    C2 --> C3
+    C3 --> D1
+    C3 --> D2
+    C3 --> D3
+    D1 --> E1
+    D2 --> E3
+    D3 --> E3
+    E1 --> E2
+    E3 --> E4
+    style S1 fill:#dbeafe
+    style S2 fill:#d1fae5
+    style S3 fill:#fef3c7
+    style S4 fill:#fee2e2
+    style S5 fill:#ede9fe
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Microsoft YaHei",sans-serif',fontSize:'16px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:20,nodeSpacing:50,rankSpacing:50}});</script>
+</body></html>

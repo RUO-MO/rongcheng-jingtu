@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Fig.3</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Times New Roman",serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    START["Start Optimization Decision"] --> INPUT["Input: Distance Matrix,<br/>AQI Data, Preference Weights"]
+    INPUT --> BUILD["Build Comprehensive Cost Matrix<br/>(Min-Max Normalization,<br/>Weighted Summation)"]
+    BUILD --> CHECK1{"C++ Module<br/>Available?"}
+    CHECK1 -- Yes --> CHECK2{"Node Count n ≤ 10?"}
+    CHECK1 -- No --> CHECK3{"Node Count n ≤ 8?"}
+    CHECK2 -- Yes --> CPP_SDP["C++ SCDP<br/>(Exact Solution)"]
+    CHECK2 -- No --> HEURISTIC["Heuristic Algorithm<br/>(Nearest Neighbor + 2-opt)"]
+    CHECK3 -- Yes --> PY_SDP["Python SCDP<br/>(Exact Solution)"]
+    CHECK3 -- No --> HEURISTIC
+    CPP_SDP --> OUTPUT["Output Optimal Visiting Order<br/>and Comprehensive Cost"]
+    PY_SDP --> OUTPUT
+    HEURISTIC --> OUTPUT
+    style START fill:#1f2937,color:#fff
+    style INPUT fill:#3b82f6,color:#fff
+    style BUILD fill:#6366f1,color:#fff
+    style CHECK1 fill:#f59e0b,color:#fff
+    style CHECK2 fill:#f59e0b,color:#fff
+    style CHECK3 fill:#f59e0b,color:#fff
+    style CPP_SDP fill:#10b981,color:#fff
+    style PY_SDP fill:#10b981,color:#fff
+    style HEURISTIC fill:#ef4444,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Times New Roman",serif',fontSize:'15px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:15,nodeSpacing:40,rankSpacing:40}});</script>
+</body></html>

@@ -1,0 +1,6 @@
+OS: Windows 10
+CPU: Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+Architecture: AMD64
+Python: 3.9.13
+Node: LAPTOP-PDC0JCUH
+RAM_GB: 15.7

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<title>系统架构图——蓉城净途（中文）</title>
+<style>
+:root{
+  --bg:#ffffff;--surface:#fafafa;--surface-muted:#f2f3f5;
+  --text:#1a1d21;--text-muted:#6b7280;--border:#d5d9e0;
+  --brand:#6d28d9;--brand-soft:#ede9fe;
+  --series1:#2563eb;--series1-soft:#dbeafe;
+  --series2:#059669;--series2-soft:#d1fae5;
+  --series3:#d97706;--series3-soft:#fef3c7;
+  --series4:#db2777;--series4-soft:#fce7f3;
+  --font-sans:"Microsoft YaHei","PingFang SC","Segoe UI",-apple-system,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:var(--font-sans);color:var(--text);
+  display:flex;flex-direction:column;align-items:center;padding:28px 16px 40px}
+h1{margin:0 0 4px;font-size:18px;font-weight:700;letter-spacing:.2px}
+.sub{color:var(--text-muted);font-size:12px;margin-bottom:20px}
+.card{width:100%;max-width:1040px;background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:24px 24px 20px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:18px;padding:12px 14px;
+  border:1px dashed var(--border);border-radius:10px;font-size:12px;color:var(--text-muted)}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.nt{font-size:14px;font-weight:600;fill:var(--text)}
+.ns{font-size:12px;fill:var(--text-muted)}
+.sm{font-size:11px}
+.tl{font-size:15px;font-weight:700;fill:var(--text)}
+</style></head><body>
+<h1>系统架构图</h1>
+<div class="sub">蓉城净途——基于状态压缩动态规划的双目标最优路径导航系统</div>
+<div class="card">
+<svg viewBox="0 0 1000 870" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="sf" x="-8%" y="-15%" width="116%" height="130%">
+  <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#00000022"/>
+</filter>
+<marker id="a1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#6b7280"/></marker>
+<marker id="a2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#059669"/></marker>
+<marker id="a3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#d97706"/></marker>
+<marker id="a4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#db2777"/></marker>
+</defs>
+
+<!-- ================== 第一层：用户交互层 ================== -->
+<g transform="translate(40,20)">
+  <rect width="920" height="140" rx="12" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="290" height="22" rx="11" fill="var(--series1-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series1)">第一层 · 用户交互层（Vue 3 + Vite 前端）</text>
+
+  <!-- 子框1 -->
+  <g transform="translate(230,48)">
+    <rect width="220" height="72" rx="8" fill="#fff" stroke="var(--series1)" stroke-width="1.3"/>
+    <text class="nt" x="110" y="32" text-anchor="middle">输入兴趣点</text>
+    <text class="ns" x="110" y="52" text-anchor="middle">起点 + 途经地</text>
+  </g>
+  <!-- 子框2 -->
+  <g transform="translate(530,48)">
+    <rect width="220" height="72" rx="8" fill="#fff" stroke="var(--series1)" stroke-width="1.3"/>
+    <text class="nt" x="110" y="32" text-anchor="middle">选择模式</text>
+    <text class="ns" x="110" y="52" text-anchor="middle">均衡 / 最短 / 绿色</text>
+  </g>
+</g>
+
+<!-- 连线 L1 -> L2 -->
+<path d="M 500 160 L 500 196" fill="none" stroke="var(--series1)" stroke-width="1.8"
+  marker-end="url(#a1)" stroke-linecap="round"/>
+
+<!-- ================== 第二层：数据采集层（外部API） ================== -->
+<g transform="translate(40,196)">
+  <rect width="920" height="160" rx="12" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="300" height="22" rx="11" fill="var(--series2-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series2)">第二层 · 数据采集层（外部 API）</text>
+
+  <!-- 地图API（左） -->
+  <g transform="translate(60,50)">
+    <rect x="0" y="0" width="90" height="20" rx="10" fill="var(--series2-soft)"/>
+    <text class="sm" x="45" y="14" text-anchor="middle" fill="var(--series2)" style="font-weight:700">地图 API</text>
+    <rect x="0" y="28" width="400" height="74" rx="8" fill="#fff" stroke="var(--series2)" stroke-width="1.3"/>
+    <text class="nt" x="200" y="56" text-anchor="middle">高德地理编码 / 驾车路线</text>
+    <text class="ns" x="200" y="76" text-anchor="middle">地址 → 坐标 · 点对点距离矩阵计算</text>
+  </g>
+  <!-- 环境监测API（右） -->
+  <g transform="translate(540,50)">
+    <rect x="0" y="0" width="120" height="20" rx="10" fill="var(--series2-soft)"/>
+    <text class="sm" x="60" y="14" text-anchor="middle" fill="var(--series2)" style="font-weight:700">环境监测 API</text>
+    <rect x="0" y="28" width="380" height="74" rx="8" fill="#fff" stroke="var(--series2)" stroke-width="1.3"/>
+    <text class="nt" x="190" y="56" text-anchor="middle">空气质量监测平台</text>
+    <text class="ns" x="190" y="76" text-anchor="middle">空间插值 → 各点 AQI 估算值</text>
+  </g>
+</g>
+
+<!-- 连线 L2 -> L3 -->
+<path d="M 500 356 L 500 392" fill="none" stroke="var(--series2)" stroke-width="1.8"
+  marker-end="url(#a2)" stroke-linecap="round"/>
+
+<!-- ================== 第三层：TSP优化决策层 ================== -->
+<g transform="translate(40,392)">
+  <rect width="920" height="170" rx="12" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="370" height="22" rx="11" fill="var(--series3-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series3)">第三层 · TSP 优化决策层（Flask 后端 + C++）</text>
+
+  <!-- 成本矩阵（左） -->
+  <g transform="translate(60,52)">
+    <rect width="400" height="96" rx="8" fill="#fff" stroke="var(--series3)" stroke-width="1.3"/>
+    <text class="nt" x="200" y="32" text-anchor="middle">构建综合成本矩阵 C</text>
+    <text class="ns" x="200" y="54" text-anchor="middle">Min-Max 归一化距离 D 与 AQI</text>
+    <text class="ns" x="200" y="72" text-anchor="middle">C_ij = α·D_norm_ij + β·AQI_norm_ij，α+β=1</text>
+  </g>
+  <!-- TSP核心（右） -->
+  <g transform="translate(520,52)">
+    <rect width="380" height="96" rx="8" fill="#fff" stroke="var(--series3)" stroke-width="1.3"/>
+    <rect x="130" y="8" width="120" height="18" rx="9" fill="var(--series3-soft)"/>
+    <text class="sm" x="190" y="21" text-anchor="middle" fill="var(--series3)" style="font-weight:700">核心 · TSP 求解</text>
+    <text class="nt" x="190" y="52" text-anchor="middle">求解最优节点访问顺序</text>
+    <text class="ns" x="190" y="72" text-anchor="middle">n≤10 C++ SCDP / n≤8 Py SCDP</text>
+    <text class="ns" x="190" y="88" text-anchor="middle">其他 → 贪心最近邻 + 2-opt 回退</text>
+  </g>
+</g>
+
+<!-- 连线 L3 -> L4 -->
+<path d="M 500 562 L 500 598" fill="none" stroke="var(--series3)" stroke-width="1.8"
+  marker-end="url(#a3)" stroke-linecap="round"/>
+
+<!-- ================== 第四层：应用服务层 ================== -->
+<g transform="translate(40,598)">
+  <rect width="920" height="180" rx="12" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="340" height="22" rx="11" fill="var(--series4-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series4)">第四层 · 应用服务层（结果输出 / 前端渲染）</text>
+
+  <!-- 4个并排子框 -->
+  <g transform="translate(24,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">推荐导航路线</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">最优访问顺序</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">总距离（公里）</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">高德折线渲染</text>
+  </g>
+  <g transform="translate(252,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">路线健康评分</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">距离扣分</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">+ AQI 扣分</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">0–100 分制</text>
+  </g>
+  <g transform="translate(480,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">污染暴露评价</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">路径累积 AQI</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">对比传统路线</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">显示降低百分比</text>
+  </g>
+  <g transform="translate(708,54)">
+    <rect width="188" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="94" y="34" text-anchor="middle">个性化</text>
+    <text class="nt" x="94" y="52" text-anchor="middle">防护建议</text>
+    <text class="ns" x="94" y="74" text-anchor="middle">口罩佩戴建议</text>
+    <text class="ns" x="94" y="92" text-anchor="middle">车窗关闭提醒</text>
+  </g>
+</g>
+
+<!-- 标题 -->
+<text x="500" y="820" text-anchor="middle" style="font-size:16px;font-weight:700;fill:var(--text)">系统架构图</text>
+
+<!-- 图例 -->
+<g transform="translate(40,834)">
+  <g><rect width="14" height="14" rx="3" fill="var(--series1)"/><text x="22" y="12" class="ns">用户 / 前端</text></g>
+  <g transform="translate(140,0)"><rect width="14" height="14" rx="3" fill="var(--series2)"/><text x="22" y="12" class="ns">外部平台 / API</text></g>
+  <g transform="translate(300,0)"><rect width="14" height="14" rx="3" fill="var(--series3)"/><text x="22" y="12" class="ns">优化核心（后端 + C++）</text></g>
+  <g transform="translate(510,0)"><rect width="14" height="14" rx="3" fill="var(--series4)"/><text x="22" y="12" class="ns">应用输出 / 服务</text></g>
+</g>
+</svg>
+</div>
+<div class="legend">
+  <span><span class="dot" style="background:var(--series1)"></span>L1 用户交互：Vue 3 + Vite，接收用户输入，渲染地图路线</span>
+  <span><span class="dot" style="background:var(--series2)"></span>L2 数据采集：高德地图 + 空气质量平台，提供坐标与暴露数据</span>
+  <span><span class="dot" style="background:var(--series3)"></span>L3 TSP决策：综合成本矩阵 + 状态压缩DP（C++/Python回退）</span>
+  <span><span class="dot" style="background:var(--series4)"></span>L4 应用服务：路线 / 健康分 / 暴露评价 / 防护建议</span>
+</div>
+</body></html>

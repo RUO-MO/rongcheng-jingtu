@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Figure 3-Y End-to-End System Workflow (EN)</title>
+<style>
+:root{--bg:#fff;--surface:#F7F8FA;--border:#D9DDE3;--text:#1D2433;--text-muted:#5B6472;--brand:#7C5CFF;--series1:#7C5CFF;--series2:#1FB4A0;--series3:#F2A93B;--series4:#4F8CFF;--radius:12px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);padding:24px;font-family:system-ui,"Segoe UI",sans-serif;}
+.t{font:600 22px/30px system-ui;margin:0 0 10px 0;}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px;font-size:14px;}
+.legend .chip{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:999px;background:var(--surface);color:var(--text-muted);border:1px solid #E7EAF0;}
+.legend .dot{width:14px;height:14px;border-radius:50%;}
+.wrap{width:100%;max-width:1400px;}
+svg{width:100%;height:auto;display:block;}
+.nt{font:600 14px system-ui;fill:var(--text);}
+.ns{font:12px system-ui;fill:var(--text-muted);}
+.sm{font:11px system-ui;fill:var(--text);}
+.tt{font:700 16px system-ui;fill:var(--text);}
+</style>
+</head><body>
+<p class="t">Figure 3-Y. End-to-End System Workflow (English)</p>
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--series4)"></span>User / Frontend</span>
+  <span class="chip"><span class="dot" style="background:var(--series1)"></span>Backend Service</span>
+  <span class="chip"><span class="dot" style="background:var(--series2)"></span>External API</span>
+  <span class="chip"><span class="dot" style="background:var(--series3)"></span>Optimization Core</span>
+</div>
+<div class="wrap">
+<svg viewBox="0 0 980 780" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="a3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--text-muted)"/></marker>
+<marker id="a3b" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--brand)"/></marker>
+<marker id="a3a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series2)"/></marker>
+<marker id="a3w" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series3)"/></marker>
+<filter id="sf3" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity=".06"/></filter>
+</defs>
+<rect x="20" y="20" width="940" height="175" rx="14" fill="var(--surface)" stroke="var(--series4)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="44">Tier 3 · Application Service Layer (Vue3 + Vite)</text>
+<g transform="translate(36,72)"><rect width="175" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">① Input POIs &amp; Mode</text>
+<text class="ns" x="10" y="40">Shortest / Balance / Greenest</text></g>
+<g transform="translate(235,72)"><rect width="140" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">② Geocoding</text>
+<text class="ns" x="10" y="40">Place name → lat,lng</text></g>
+<g transform="translate(405,72)"><rect width="165" height="58" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">③ POST /api/plan</text>
+<text class="ns" x="10" y="40">Coords + α, β weights</text></g>
+<g transform="translate(760,64)"><rect width="180" height="90" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf3)"/>
+<rect x="8" y="8" width="36" height="16" rx="8" fill="var(--series4)" opacity=".12"/>
+<text class="sm" x="26" y="20" text-anchor="middle" fill="var(--series4)" style="font-weight:700">UI</text>
+<text class="nt" x="10" y="46">⑩ Render Result</text>
+<text class="ns" x="10" y="62">Route + Score + Advice</text>
+<text class="sm" x="10" y="78">Amap JS API rendering</text></g>
+<path d="M 211 101 L 235 101" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a3)" stroke-linecap="round"/>
+<path d="M 375 101 L 405 101" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a3)" stroke-linecap="round"/>
+<path d="M 487 130 L 487 210" fill="none" stroke="var(--series1)" stroke-width="1.7" marker-end="url(#a3)" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text class="sm" x="494" y="176" fill="var(--series1)" style="font-weight:600">JSON HTTP</text>
+<rect x="20" y="210" width="940" height="195" rx="14" fill="var(--surface)" stroke="var(--series1)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="234">Tier 2 · Optimization &amp; Decision Layer (Flask Backend)</text>
+<g transform="translate(36,262)"><rect width="150" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">④ Validate Request</text>
+<text class="ns" x="10" y="40">Parse params</text></g>
+<g transform="translate(210,262)"><rect width="170" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">⑤ Fetch D &amp; A Matrices</text>
+<text class="ns" x="10" y="40">RoutePlanner methods</text></g>
+<g transform="translate(405,262)"><rect width="160" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">⑥ Build Cost Matrix C</text>
+<text class="ns" x="10" y="40">Normalize + weighted sum</text></g>
+<g transform="translate(590,250)"><rect width="210" height="90" rx="8" fill="var(--bg)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf3)"/>
+<rect x="8" y="8" width="120" height="16" rx="8" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="68" y="20" text-anchor="middle" fill="var(--series3)" style="font-weight:700">CORE · TSP SOLVER</text>
+<text class="nt" x="10" y="44">⑦ Solve TSP</text>
+<text class="ns" x="10" y="60">n≤10: C++ SCDP</text>
+<text class="ns" x="10" y="74">n≤8: Py SCDP</text>
+<text class="ns" x="10" y="86">else: Greedy+2-opt</text></g>
+<g transform="translate(800,262)"><rect width="140" height="58" rx="8" fill="var(--bg)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="22">⑧ JSON Response</text>
+<text class="ns" x="10" y="40">Path / dist / AQI / score</text></g>
+<path d="M 186 291 L 210 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a3)" stroke-linecap="round"/>
+<path d="M 380 291 L 405 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a3)" stroke-linecap="round"/>
+<path d="M 565 291 L 590 291" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#a3w)" stroke-linecap="round"/>
+<path d="M 775 291 L 800 291" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#a3)" stroke-linecap="round"/>
+<path d="M 110 320 L 110 420" fill="none" stroke="var(--series2)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a3a)"/>
+<text class="sm" x="116" y="376" fill="var(--series2)" style="font-weight:600">request</text>
+<path d="M 295 320 L 295 420" fill="none" stroke="var(--series2)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a3a)"/>
+<rect x="20" y="420" width="940" height="160" rx="14" fill="var(--surface)" stroke="var(--series2)" stroke-dasharray="5 4" stroke-width="1.5" opacity=".9"/>
+<text class="tt" x="36" y="444">Tier 1 · Data Acquisition Layer (External APIs)</text>
+<g transform="translate(36,470)"><rect width="220" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf3)"/>
+<rect x="8" y="8" width="76" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="46" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">MAP API</text>
+<text class="nt" x="10" y="44">Amap Geocode / Driving</text>
+<text class="ns" x="10" y="60">Returns coords, distance, time</text></g>
+<g transform="translate(290,470)"><rect width="220" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf3)"/>
+<rect x="8" y="8" width="120" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="68" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">ENVIRONMENT API</text>
+<text class="nt" x="10" y="44">Air Quality Monitoring</text>
+<text class="ns" x="10" y="60">Returns AQI per segment</text></g>
+<g transform="translate(544,470)"><rect width="200" height="72" rx="8" fill="var(--bg)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf3)"/>
+<rect x="8" y="8" width="72" height="16" rx="8" fill="var(--series2)" opacity=".12"/>
+<text class="sm" x="44" y="20" text-anchor="middle" fill="var(--series2)" style="font-weight:700">USER INPUT</text>
+<text class="nt" x="10" y="44">Mode &amp; Weight Params</text>
+<text class="ns" x="10" y="60">α, β preference selection</text></g>
+<path d="M 146 470 L 146 360 L 110 360 L 110 320" fill="none" stroke="var(--series2)" stroke-width="1.5" marker-end="url(#a3a)" stroke-linecap="round"/>
+<text class="sm" x="152" y="400" fill="var(--series2)" style="font-weight:600">D matrix</text>
+<path d="M 400 470 L 400 380 L 295 380 L 295 320" fill="none" stroke="var(--series2)" stroke-width="1.5" marker-end="url(#a3a)" stroke-linecap="round"/>
+<text class="sm" x="350" y="372" fill="var(--series2)" style="font-weight:600">A matrix</text>
+<path d="M 870 262 L 870 210 L 850 210 L 850 155" fill="none" stroke="var(--series1)" stroke-width="1.7" marker-end="url(#a3)" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text class="sm" x="855" y="195" fill="var(--series1)" style="font-weight:600">Response</text>
+<rect x="20" y="600" width="940" height="170" rx="14" fill="var(--surface)" stroke="var(--brand)" stroke-width="1.7" opacity=".9"/>
+<text class="tt" x="36" y="624" fill="var(--brand)">Final Results Presentation</text>
+<path d="M 850 155 L 850 600" fill="none" stroke="var(--brand)" stroke-width="1.7" marker-end="url(#a3b)" stroke-linecap="round" stroke-dasharray="5 4" opacity=".7"/>
+<g transform="translate(36,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="24">⑪ TSP Visit Order</text>
+<text class="ns" x="10" y="42">Optimal node sequence</text>
+<text class="sm" x="10" y="60">e.g. Plaza → Chunxi → …</text></g>
+<g transform="translate(270,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="24">⑫ Key Metrics</text>
+<text class="ns" x="10" y="42">Total distance · AQI exposure</text>
+<text class="sm" x="10" y="60">Time · Composite cost</text></g>
+<g transform="translate(504,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="24">⑬ Health Score</text>
+<text class="ns" x="10" y="42">Good / Moderate / Poor</text>
+<text class="sm" x="10" y="60">Score + color badge</text></g>
+<g transform="translate(738,648)"><rect width="210" height="72" rx="8" fill="var(--bg)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf3)"/>
+<text class="nt" x="10" y="24">⑭ Navigation Advice</text>
+<text class="ns" x="10" y="42">Mask tips · Window advice</text>
+<text class="sm" x="10" y="60">Alternative routes · Alerts</text></g>
+</svg>
+</div>
+</body></html>

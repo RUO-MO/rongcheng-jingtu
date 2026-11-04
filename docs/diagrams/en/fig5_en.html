@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Fig.5</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Times New Roman",serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    START["Start"] --> INIT["Step 1: Initialize State Table<br/>(Set starting node visit cost to zero)"]
+    INIT --> ENUM["Step 2: Enumerate All Possible States<br/>(Binary mask for visited node set)"]
+    ENUM --> TRANS["Step 3: State Transition Update<br/>(Move from current node to unvisited node,<br/>compute minimum cost for new state)"]
+    TRANS --> LOOP{"State Enumeration<br/>Complete?"}
+    LOOP -- No --> ENUM
+    LOOP -- Yes --> FIND["Find minimum total cost<br/>terminal node in full state"]
+    FIND --> BACK["Step 4: Optimal Path Recovery<br/>(Backtrack via predecessor records,<br/>restore complete visiting order)"]
+    BACK --> OUTPUT["Step 5: Generate Navigation Results<br/>(Output recommended route,<br/>compute health score & exposure assessment,<br/>generate protection advice)"]
+    style START fill:#1f2937,color:#fff
+    style INIT fill:#3b82f6,color:#fff
+    style ENUM fill:#6366f1,color:#fff
+    style TRANS fill:#6366f1,color:#fff
+    style LOOP fill:#f59e0b,color:#fff
+    style FIND fill:#10b981,color:#fff
+    style BACK fill:#10b981,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Times New Roman",serif',fontSize:'15px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:15,nodeSpacing:40,rankSpacing:40}});</script>
+</body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Fig.4</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Times New Roman",serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    subgraph S1["Stage 1: User Requirement Input"]
+        A1["Input Starting Location"]
+        A2["Input Multiple Destinations"]
+        A3["Select Optimization Mode"]
+    end
+    subgraph S2["Stage 2: Data Acquisition"]
+        B1["Acquire Geographic Coordinates"]
+        B2["Acquire Road Distance"]
+        B3["Acquire Environmental AQI Data"]
+    end
+    subgraph S3["Stage 3: TSP Optimization"]
+        C1["Construct Multi-node Optimization Task"]
+        C2["Invoke TSP Solver Module"]
+        C3["Obtain Optimal Visiting Order"]
+    end
+    subgraph S4["Stage 4: Route Evaluation"]
+        D1["Calculate Travel Cost"]
+        D2["Assess Pollution Exposure"]
+        D3["Evaluate Health Suitability"]
+    end
+    subgraph S5["Stage 5: Result Output"]
+        E1["Display Recommended Route"]
+        E2["Display Optimal Visiting Order"]
+        E3["Display Health Score"]
+        E4["Display Protection Advice"]
+    end
+    A1 --> B1
+    A2 --> B1
+    A3 --> C1
+    B1 --> C1
+    B2 --> C1
+    B3 --> C2
+    C1 --> C2
+    C2 --> C3
+    C3 --> D1
+    C3 --> D2
+    C3 --> D3
+    D1 --> E1
+    D2 --> E3
+    D3 --> E3
+    E1 --> E2
+    E3 --> E4
+    style S1 fill:#dbeafe
+    style S2 fill:#d1fae5
+    style S3 fill:#fef3c7
+    style S4 fill:#fee2e2
+    style S5 fill:#ede9fe
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Times New Roman",serif',fontSize:'15px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:15,nodeSpacing:40,rankSpacing:40}});</script>
+</body></html>

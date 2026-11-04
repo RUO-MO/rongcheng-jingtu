@@ -1,0 +1,5 @@
+# 实验复现依赖（与后端运行依赖独立）
+# 安装: pip install -r experiments/requirements.txt
+numpy>=1.23,<2
+scipy>=1.13
+matplotlib>=3.7

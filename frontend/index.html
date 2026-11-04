@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>蓉城净途</title>
+    <!-- 安全密钥配置（必须在 loader.js 之前），值由 Vite 从环境变量注入 -->
+    <script type="text/javascript">
+      window._AMapSecurityConfig = {
+        securityJsCode: '%VITE_AMAP_SECURITY_CODE%'
+      };
+    </script>
+    <!-- 高德地图 Loader -->
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <!-- Socket.IO 客户端 -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main_zh.js"></script>
+  </body>
+</html>

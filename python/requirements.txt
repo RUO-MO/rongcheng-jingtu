@@ -1,0 +1,16 @@
+# 核心依赖
+requests==2.28.0
+numpy==1.23.0
+flask==2.0.1
+Flask-Cors==3.0.10
+python-dotenv==0.20.0
+Flask-SocketIO==5.1.0
+eventlet==0.33.3
+gunicorn==20.1.0
+
+# 开发依赖
+pytest==7.1.0
+# 编译 C++ 加速模块（pybind11）所需的构建依赖
+pybind11>=2.11
+
+# 运行命令: pip install -r requirements.txt

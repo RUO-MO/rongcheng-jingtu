@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Fig.1</title>
+<style>body{margin:0;padding:30px;background:#fff;font-family:"Times New Roman",serif}.mermaid{display:flex;justify-content:center}</style>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div class="mermaid">
+graph TD
+    subgraph L1["User Interaction Layer"]
+        A1["Vue 3.5.30 + Vite 8.0.0"]
+        A2["User Input Interface"]
+        A3["Map Display"]
+        A4["Mode Selection"]
+    end
+    subgraph L2["Data Interaction Layer"]
+        B1["Flask 2.0.1 + Flask-SocketIO 5.1.0"]
+        B2["AMap Web API v3"]
+        B3["Open-Meteo Air Quality API"]
+    end
+    subgraph L3["Optimization Decision Layer"]
+        C1["Python Backend Route Planner"]
+        C2["pybind11 Interface Bridge"]
+        C3["C++17 SCDP Solver"]
+    end
+    subgraph L4["Application Service Layer"]
+        D1["Route Recommendation"]
+        D2["Health Score Calculation"]
+        D3["Pollution Exposure Assessment"]
+        D4["Navigation Guidance"]
+    end
+    A1 --> B1
+    B1 --> C1
+    C1 --> C2
+    C2 --> C3
+    C1 --> D1
+    C1 --> D2
+    C1 --> D3
+    C1 --> D4
+    B2 --> C1
+    B3 --> C1
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',themeVariables:{fontFamily:'"Times New Roman",serif',fontSize:'15px'},flowchart:{useMaxWidth:true,htmlLabels:true,curve:'basis',padding:15,nodeSpacing:40,rankSpacing:40}});</script>
+</body></html>

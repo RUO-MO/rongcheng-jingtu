@@ -1,0 +1,47 @@
+# ---- 构建产物 ----
+build/
+cpp/build/
+dist/
+frontend/dist/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+python/venv/
+python/_core*.pyd
+python/_core*.so
+.pytest_cache/
+
+# ---- C++ 编译产物 ----
+*.obj
+*.o
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.sln
+*.vcxproj
+*.vcxproj.*
+CMakeCache.txt
+CMakeFiles/
+
+# ---- 敏感配置（API 密钥）----
+python/config.py
+.env
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# ---- IDE / 操作系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- 日志与临时文件 ----
+*.log
+*.tmp
+docx_content.txt

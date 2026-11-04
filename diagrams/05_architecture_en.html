@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>System Architecture — Rongcheng Jingtu (EN)</title>
+<style>
+:root{
+  --bg:#ffffff;--surface:#fafafa;--surface-muted:#f2f3f5;
+  --text:#1a1d21;--text-muted:#6b7280;--border:#d5d9e0;
+  --brand:#6d28d9;--brand-soft:#ede9fe;
+  --series1:#2563eb;--series1-soft:#dbeafe;
+  --series2:#059669;--series2-soft:#d1fae5;
+  --series3:#d97706;--series3-soft:#fef3c7;
+  --series4:#db2777;--series4-soft:#fce7f3;
+  --font-sans:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:var(--font-sans);color:var(--text);
+  display:flex;flex-direction:column;align-items:center;padding:28px 16px 40px}
+h1{margin:0 0 4px;font-size:18px;font-weight:700;letter-spacing:.2px}
+.sub{color:var(--text-muted);font-size:12px;margin-bottom:20px}
+.card{width:100%;max-width:1040px;background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:24px 24px 20px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:18px;padding:12px 14px;
+  border:1px dashed var(--border);border-radius:10px;font-size:12px;color:var(--text-muted)}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.nt{font-size:14px;font-weight:600;fill:var(--text)}
+.ns{font-size:12px;fill:var(--text-muted)}
+.sm{font-size:11px}
+.tl{font-size:15px;font-weight:700;fill:var(--text)}
+</style></head><body>
+<h1>System Architecture Diagram</h1>
+<div class="sub">Rongcheng Jingtu — Dual-Objective Optimal Path Navigation via State-Compressed DP</div>
+<div class="card">
+<svg viewBox="0 0 1000 870" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="sf" x="-8%" y="-15%" width="116%" height="130%">
+  <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#00000022"/>
+</filter>
+<marker id="a1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#6b7280"/></marker>
+<marker id="a2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#059669"/></marker>
+<marker id="a3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#d97706"/></marker>
+<marker id="a4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8"
+  markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="#db2777"/></marker>
+</defs>
+
+<!-- ================== LAYER 1: User Interaction ================== -->
+<g transform="translate(40,20)">
+  <rect width="920" height="140" rx="12" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="250" height="22" rx="11" fill="var(--series1-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series1)">L1 · User Interaction Layer (Vue 3 + Vite Frontend)</text>
+
+  <!-- sub-box 1 -->
+  <g transform="translate(230,48)">
+    <rect width="220" height="72" rx="8" fill="#fff" stroke="var(--series1)" stroke-width="1.3"/>
+    <text class="nt" x="110" y="32" text-anchor="middle">Input POIs</text>
+    <text class="ns" x="110" y="52" text-anchor="middle">Enter start + waypoints</text>
+  </g>
+  <!-- sub-box 2 -->
+  <g transform="translate(530,48)">
+    <rect width="220" height="72" rx="8" fill="#fff" stroke="var(--series1)" stroke-width="1.3"/>
+    <text class="nt" x="110" y="32" text-anchor="middle">Select Mode</text>
+    <text class="ns" x="110" y="52" text-anchor="middle">Balanced / Shortest / Green</text>
+  </g>
+</g>
+
+<!-- connector L1 -> L2 -->
+<path d="M 500 160 L 500 196" fill="none" stroke="var(--series1)" stroke-width="1.8"
+  marker-end="url(#a1)" stroke-linecap="round"/>
+
+<!-- ================== LAYER 2: Data Collection (External APIs) ================== -->
+<g transform="translate(40,196)">
+  <rect width="920" height="160" rx="12" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="280" height="22" rx="11" fill="var(--series2-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series2)">L2 · Data Collection Layer (External APIs)</text>
+
+  <!-- Map API (left) -->
+  <g transform="translate(60,50)">
+    <rect x="0" y="0" width="120" height="20" rx="10" fill="var(--series2-soft)"/>
+    <text class="sm" x="60" y="14" text-anchor="middle" fill="var(--series2)" style="font-weight:700">MAP API</text>
+    <rect x="0" y="28" width="400" height="74" rx="8" fill="#fff" stroke="var(--series2)" stroke-width="1.3"/>
+    <text class="nt" x="200" y="56" text-anchor="middle">Amap Geocoding / Driving Route</text>
+    <text class="ns" x="200" y="76" text-anchor="middle">Address → Coords · Point-to-point distance matrix</text>
+  </g>
+  <!-- Env API (right) -->
+  <g transform="translate(540,50)">
+    <rect x="0" y="0" width="150" height="20" rx="10" fill="var(--series2-soft)"/>
+    <text class="sm" x="75" y="14" text-anchor="middle" fill="var(--series2)" style="font-weight:700">ENV MONITOR API</text>
+    <rect x="0" y="28" width="380" height="74" rx="8" fill="#fff" stroke="var(--series2)" stroke-width="1.3"/>
+    <text class="nt" x="190" y="56" text-anchor="middle">Air Quality Monitoring Platform</text>
+    <text class="ns" x="190" y="76" text-anchor="middle">Spatial interpolation → Per-point AQI estimates</text>
+  </g>
+</g>
+
+<!-- connector L2 -> L3 -->
+<path d="M 500 356 L 500 392" fill="none" stroke="var(--series2)" stroke-width="1.8"
+  marker-end="url(#a2)" stroke-linecap="round"/>
+
+<!-- ================== LAYER 3: TSP Optimization Decision ================== -->
+<g transform="translate(40,392)">
+  <rect width="920" height="170" rx="12" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="350" height="22" rx="11" fill="var(--series3-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series3)">L3 · TSP Optimization Decision Layer (Flask Backend + C++)</text>
+
+  <!-- Cost matrix box (left) -->
+  <g transform="translate(60,52)">
+    <rect width="400" height="96" rx="8" fill="#fff" stroke="var(--series3)" stroke-width="1.3"/>
+    <text class="nt" x="200" y="32" text-anchor="middle">Build Comprehensive Cost Matrix C</text>
+    <text class="ns" x="200" y="54" text-anchor="middle">Min-Max normalize D and AQI</text>
+    <text class="ns" x="200" y="72" text-anchor="middle">C_ij = α·D_norm_ij + β·AQI_norm_ij, α+β=1</text>
+  </g>
+  <!-- TSP core box (right) -->
+  <g transform="translate(520,52)">
+    <rect width="380" height="96" rx="8" fill="#fff" stroke="var(--series3)" stroke-width="1.3"/>
+    <rect x="130" y="8" width="120" height="18" rx="9" fill="var(--series3-soft)"/>
+    <text class="sm" x="190" y="21" text-anchor="middle" fill="var(--series3)" style="font-weight:700">CORE · TSP SOLVER</text>
+    <text class="nt" x="190" y="52" text-anchor="middle">Solve Optimal Node Order</text>
+    <text class="ns" x="190" y="72" text-anchor="middle">n≤10 C++ SCDP / n≤8 Py SCDP</text>
+    <text class="ns" x="190" y="88" text-anchor="middle">else → Greedy NN + 2-opt fallback</text>
+  </g>
+</g>
+
+<!-- connector L3 -> L4 -->
+<path d="M 500 562 L 500 598" fill="none" stroke="var(--series3)" stroke-width="1.8"
+  marker-end="url(#a3)" stroke-linecap="round"/>
+
+<!-- ================== LAYER 4: Application Service ================== -->
+<g transform="translate(40,598)">
+  <rect width="920" height="180" rx="12" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf)"/>
+  <rect x="16" y="12" width="320" height="22" rx="11" fill="var(--series4-soft)"/>
+  <text class="tl" x="32" y="28" fill="var(--series4)">L4 · Application Service Layer (Output / Frontend Render)</text>
+
+  <!-- 4 boxes in a row -->
+  <g transform="translate(24,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">Recommended Route</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">Optimal visit order</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">Total distance (km)</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">Amap polyline render</text>
+  </g>
+  <g transform="translate(252,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">Route Health Score</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">Distance penalty</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">+ AQI penalty</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">0–100 scale</text>
+  </g>
+  <g transform="translate(480,54)">
+    <rect width="208" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="104" y="34" text-anchor="middle">Exposure Assessment</text>
+    <text class="ns" x="104" y="56" text-anchor="middle">Cumulative AQI along path</text>
+    <text class="ns" x="104" y="74" text-anchor="middle">vs traditional route</text>
+    <text class="ns" x="104" y="92" text-anchor="middle">Reduction % shown</text>
+  </g>
+  <g transform="translate(708,54)">
+    <rect width="188" height="104" rx="8" fill="#fff" stroke="var(--series4)" stroke-width="1.3"/>
+    <text class="nt" x="94" y="34" text-anchor="middle">Personalized</text>
+    <text class="nt" x="94" y="52" text-anchor="middle">Protection Advice</text>
+    <text class="ns" x="94" y="74" text-anchor="middle">Mask suggestion</text>
+    <text class="ns" x="94" y="92" text-anchor="middle">Window reminder</text>
+  </g>
+</g>
+
+<!-- Title -->
+<text x="500" y="820" text-anchor="middle" style="font-size:16px;font-weight:700;fill:var(--text)">System Architecture Diagram</text>
+
+<!-- Legend -->
+<g transform="translate(40,834)">
+  <g><rect width="14" height="14" rx="3" fill="var(--series1)"/><text x="22" y="12" class="ns">User / Frontend</text></g>
+  <g transform="translate(170,0)"><rect width="14" height="14" rx="3" fill="var(--series2)"/><text x="22" y="12" class="ns">External Platform / API</text></g>
+  <g transform="translate(380,0)"><rect width="14" height="14" rx="3" fill="var(--series3)"/><text x="22" y="12" class="ns">Optimization Core (Backend + C++)</text></g>
+  <g transform="translate(650,0)"><rect width="14" height="14" rx="3" fill="var(--series4)"/><text x="22" y="12" class="ns">Application Output / Service</text></g>
+</g>
+</svg>
+</div>
+<div class="legend">
+  <span><span class="dot" style="background:var(--series1)"></span>L1 User Interaction: Vue 3 + Vite, accepts user input & renders map</span>
+  <span><span class="dot" style="background:var(--series2)"></span>L2 Data Collection: Amap + AQI platform, feeds coordinates & exposure</span>
+  <span><span class="dot" style="background:var(--series3)"></span>L3 TSP Decision: cost matrix + state-compressed DP solver (C++ / Python fallback)</span>
+  <span><span class="dot" style="background:var(--series4)"></span>L4 Application: route / health score / exposure / protection advice</span>
+</div>
+</body></html>

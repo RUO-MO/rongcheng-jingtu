@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>论文图表渲染</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #ffffff;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        .figure {
+            margin-bottom: 60px;
+            page-break-after: always;
+            text-align: center;
+        }
+        .figure:last-child {
+            page-break-after: auto;
+        }
+        .figure-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #ffffff;
+            padding: 20px;
+        }
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="figure">
+    <div class="figure-title">图1 系统架构图</div>
+    <div class="mermaid">
+graph TD
+    subgraph L1[用户交互层]
+        A1[Vue 3.5.30 + Vite 8.0.0]
+        A2[用户输入界面]
+        A3[地图展示]
+        A4[模式选择]
+    end
+    subgraph L2[数据交互层]
+        B1[Flask 2.0.1 + Flask-SocketIO 5.1.0]
+        B2[高德地图API v3]
+        B3[Open-Meteo空气质量API]
+    end
+    subgraph L3[优化决策层]
+        C1[Python后端路由规划器]
+        C2[pybind11接口桥接]
+        C3["C++17 状态压缩动态规划求解器"]
+    end
+    subgraph L4[应用服务层]
+        D1[推荐路线输出]
+        D2[健康评分计算]
+        D3[污染暴露评估]
+        D4[导航功能建议]
+    end
+    A1 --> B1
+    B1 --> C1
+    C1 --> C2
+    C2 --> C3
+    C1 --> D1
+    C1 --> D2
+    C1 --> D3
+    C1 --> D4
+    B2 --> C1
+    B3 --> C1
+    </div>
+</div>
+
+<div class="figure">
+    <div class="figure-title">图2 系统功能模块图</div>
+    <div class="mermaid">
+graph TD
+    ROOT[系统功能模块]
+    ROOT --> M1[用户交互模块]
+    ROOT --> M2[数据服务模块]
+    ROOT --> M3[TSP优化模块]
+    ROOT --> M4[结果展示模块]
+    M1 --> M1A[地点输入]
+    M1 --> M1B[路线偏好选择]
+    M2 --> M2A[地理坐标获取]
+    M2 --> M2B[空气质量数据获取]
+    M3 --> M3A[状态压缩动态规划求解]
+    M3 --> M3B[AQI加权综合排序]
+    M3 --> M3C[多节点访问顺序优化]
+    M4 --> M4A[推荐导航路线展示]
+    M4 --> M4B[路线健康评分展示]
+    style ROOT fill:#1f2937,stroke:#1f2937,color:#fff
+    style M1 fill:#3b82f6,color:#fff
+    style M2 fill:#10b981,color:#fff
+    style M3 fill:#f59e0b,color:#fff
+    style M4 fill:#ef4444,color:#fff
+    </div>
+</div>
+
+<div class="figure">
+    <div class="figure-title">图3 优化决策流程图</div>
+    <div class="mermaid">
+graph TD
+    START[开始优化决策] --> INPUT["输入:距离矩阵/AQI数据/偏好权重"]
+    INPUT --> BUILD["构建综合成本矩阵<br/>Min-Max归一化<br/>加权求和"]
+    BUILD --> CHECK1{C++模块是否可用}
+    CHECK1 -- 是 --> CHECK2{节点数 ≤ 10}
+    CHECK1 -- 否 --> CHECK3{节点数 ≤ 8}
+    CHECK2 -- 是 --> CPP_SDP["C++状态压缩动态规划<br/>精确解"]
+    CHECK2 -- 否 --> HEURISTIC["启发式贪心算法<br/>最近邻+2-opt"]
+    CHECK3 -- 是 --> PY_SDP["Python状态压缩动态规划<br/>精确解"]
+    CHECK3 -- 否 --> HEURISTIC
+    CPP_SDP --> OUTPUT[输出最优访问顺序及综合代价]
+    PY_SDP --> OUTPUT
+    HEURISTIC --> OUTPUT
+    style START fill:#1f2937,color:#fff
+    style INPUT fill:#3b82f6,color:#fff
+    style BUILD fill:#6366f1,color:#fff
+    style CHECK1 fill:#f59e0b,color:#fff
+    style CHECK2 fill:#f59e0b,color:#fff
+    style CHECK3 fill:#f59e0b,color:#fff
+    style CPP_SDP fill:#10b981,color:#fff
+    style PY_SDP fill:#10b981,color:#fff
+    style HEURISTIC fill:#ef4444,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff
+    </div>
+</div>
+
+<div class="figure">
+    <div class="figure-title">图4 系统五阶段流程图</div>
+    <div class="mermaid">
+graph TD
+    subgraph S1[阶段一:用户需求输入]
+        A1[输入起始位置]
+        A2[输入多个目标地点]
+        A3[选择优化模式]
+    end
+    subgraph S2[阶段二:数据获取]
+        B1[获取地理坐标]
+        B2[获取道路距离]
+        B3[获取环境空气质量信息]
+    end
+    subgraph S3[阶段三:TSP优化]
+        C1[构建多节点优化任务]
+        C2[调用TSP求解模块]
+        C3[获得最佳访问顺序]
+    end
+    subgraph S4[阶段四:路径评价]
+        D1[计算出行成本]
+        D2[评估污染暴露]
+        D3[评估健康适宜性]
+    end
+    subgraph S5[阶段五:结果输出]
+        E1[展示推荐路线]
+        E2[展示最优访问顺序]
+        E3[展示健康评分]
+        E4[展示防护建议]
+    end
+    A1 --> B1
+    A2 --> B1
+    A3 --> C1
+    B1 --> C1
+    B2 --> C1
+    B3 --> C2
+    C1 --> C2
+    C2 --> C3
+    C3 --> D1
+    C3 --> D2
+    C3 --> D3
+    D1 --> E1
+    D2 --> E3
+    D3 --> E3
+    E1 --> E2
+    E3 --> E4
+    style S1 fill:#dbeafe
+    style S2 fill:#d1fae5
+    style S3 fill:#fef3c7
+    style S4 fill:#fee2e2
+    style S5 fill:#ede9fe
+    </div>
+</div>
+
+<div class="figure">
+    <div class="figure-title">图5 SCDP算法流程图</div>
+    <div class="mermaid">
+graph TD
+    START[开始] --> INIT["步骤一:初始化状态表<br/>设定起始节点的访问代价为零"]
+    INIT --> ENUM["步骤二:枚举所有可能的访问状态<br/>使用二进制掩码表示已访问节点集合"]
+    ENUM --> TRANS["步骤三:状态转移更新<br/>尝试从当前节点移动到未访问节点<br/>计算新状态的最小访问代价"]
+    TRANS --> LOOP{是否完成<br/>所有状态枚举}
+    LOOP -- 否 --> ENUM
+    LOOP -- 是 --> FIND["在完整状态中<br/>寻找最小总代价的终点"]
+    FIND --> BACK["步骤四:最优路径恢复<br/>通过前驱记录反向回溯<br/>还原完整访问顺序"]
+    BACK --> OUTPUT["步骤五:生成导航结果<br/>输出推荐路线<br/>计算健康评分与暴露评价<br/>生成防护建议"]
+    style START fill:#1f2937,color:#fff
+    style INIT fill:#3b82f6,color:#fff
+    style ENUM fill:#6366f1,color:#fff
+    style TRANS fill:#6366f1,color:#fff
+    style LOOP fill:#f59e0b,color:#fff
+    style FIND fill:#10b981,color:#fff
+    style BACK fill:#10b981,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff
+    </div>
+</div>
+
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        themeVariables: {
+            fontFamily: '"Microsoft YaHei", "PingFang SC", sans-serif',
+            fontSize: '16px'
+        },
+        flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true,
+            curve: 'basis',
+            padding: 20,
+            nodeSpacing: 50,
+            rankSpacing: 50
+        }
+    });
+</script>
+</body>
+</html>

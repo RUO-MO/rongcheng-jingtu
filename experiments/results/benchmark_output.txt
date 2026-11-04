@@ -1,0 +1,10 @@
+﻿python.exe : Traceback (most recent call last):
+At line:15 char:3402
++ ... eriments" ; & "D:\python.exe" run_sci_benchmark.py > benchmark_output ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\蓉城净途——基于动态规划的双目标最优路径导航系统\rongcheng-jingtu\experiments\run_sci_benchmark.py", line 22, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'

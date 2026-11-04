@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Figure 3-X Optimization &amp; Decision Layer Flow (EN)</title>
+<style>
+:root{--bg:#fff;--surface:#F7F8FA;--border:#D9DDE3;--text:#1D2433;--text-muted:#5B6472;--brand:#7C5CFF;--series1:#7C5CFF;--series2:#1FB4A0;--series3:#F2A93B;--series4:#4F8CFF;--series5:#E05A5A;--radius:12px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);padding:24px;font-family:system-ui,"Segoe UI",sans-serif;}
+.t{font:600 22px/30px system-ui;margin:0 0 10px 0;}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px;font-size:14px;}
+.legend .chip{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:999px;background:var(--surface);color:var(--text-muted);border:1px solid #E7EAF0;}
+.legend .dot{width:14px;height:14px;border-radius:50%;}
+.wrap{width:100%;max-width:1500px;}
+svg{width:100%;height:auto;display:block;}
+.nt{font:600 15px system-ui;fill:var(--text);}
+.ns{font:13px system-ui;fill:var(--text-muted);}
+.sm{font:12px system-ui;fill:var(--text);}
+</style>
+</head><body>
+<p class="t">Figure 3-X. Optimization &amp; Decision Layer Flowchart (English)</p>
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--series4)"></span>User / Frontend</span>
+  <span class="chip"><span class="dot" style="background:var(--series1)"></span>Backend Service</span>
+  <span class="chip"><span class="dot" style="background:var(--series2)"></span>External API</span>
+  <span class="chip"><span class="dot" style="background:var(--series3)"></span>Optimization Core</span>
+</div>
+<div class="wrap">
+<svg viewBox="0 0 980 880" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ae" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--text-muted)"/></marker>
+<marker id="ab" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series2)"/></marker>
+<marker id="aw" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series3)"/></marker>
+<marker id="abr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--brand)"/></marker>
+<marker id="a4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series4)"/></marker>
+<filter id="sf" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity=".06"/></filter>
+</defs>
+
+<!-- Row 1: Inputs -->
+<g transform="translate(40,30)"><rect width="250" height="72" rx="10" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="14" y="28">Distance Matrix D</text>
+<text class="ns" x="14" y="46">Driving distances (km)</text>
+<text class="sm" x="14" y="62">Source: Amap Driving API</text></g>
+<g transform="translate(360,30)"><rect width="250" height="72" rx="10" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="14" y="28">AQI Exposure Matrix A</text>
+<text class="ns" x="14" y="46">Air quality index per segment</text>
+<text class="sm" x="14" y="62">Source: Air Quality Monitoring</text></g>
+<g transform="translate(680,30)"><rect width="260" height="72" rx="10" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="14" y="28">Weight Parameters α, β</text>
+<text class="ns" x="14" y="46">α + β = 1</text>
+<text class="sm" x="14" y="62">Shortest / Balance / Greenest</text></g>
+
+<!-- Connectors row1 -> row2 -->
+<path d="M 165 102 L 165 130 L 490 130 L 490 150" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae)" stroke-linecap="round"/>
+<path d="M 485 102 L 485 150" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae)" stroke-linecap="round"/>
+<path d="M 810 102 L 810 130 L 490 130" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round"/>
+
+<!-- Row 2: Build Cost Matrix C (Backend) -->
+<g transform="translate(315,150)"><rect width="350" height="68" rx="10" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="14" y="28">Build Composite Cost Matrix C</text>
+<text class="ns" x="14" y="50">Min-Max Normalize → C = α·D_norm + β·A_norm</text></g>
+
+<!-- Connector row2 -> row3 -->
+<path d="M 490 218 L 490 248" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae)" stroke-linecap="round"/>
+
+<!-- Row 3: Decision Diamond 1 — HAS_CPP? -->
+<g transform="translate(350,248)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="140" y="42" text-anchor="middle">C++ module loaded</text>
+<text class="nt" x="140" y="60" text-anchor="middle">(HAS_CPP == True) ?</text></g>
+
+<!-- YES (HAS_CPP) -> left to n<=10 check -->
+<text class="sm" x="170" y="360" fill="var(--series2)" style="font-weight:700">YES</text>
+<path d="M 350 296 L 230 296 L 230 370" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- NO (no C++) -> right to n<=8 check -->
+<text class="sm" x="650" y="360" fill="var(--series3)" style="font-weight:700">NO</text>
+<path d="M 630 296 L 750 296 L 750 370" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- Row 4 Left: Diamond n<=10? -->
+<g transform="translate(90,370)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="140" y="52" text-anchor="middle">n ≤ 10 ?</text></g>
+
+<!-- YES n<=10 -> C++ SCDP -->
+<text class="sm" x="50" y="488" fill="var(--series2)" style="font-weight:700">YES</text>
+<path d="M 90 418 L 50 418 L 50 500" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- NO n>10 -> Heuristic -->
+<text class="sm" x="340" y="488" fill="var(--series3)" style="font-weight:700">NO</text>
+<path d="M 370 418 L 420 418 L 420 500" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- Row 4 Right: Diamond n<=8? (no C++ path) -->
+<g transform="translate(610,370)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf)"/>
+<text class="nt" x="140" y="52" text-anchor="middle">n ≤ 8 ?</text></g>
+
+<!-- YES n<=8 -> Python SCDP -->
+<text class="sm" x="570" y="488" fill="var(--series2)" style="font-weight:700">YES</text>
+<path d="M 610 418 L 570 418 L 570 500" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- NO n>8 -> Heuristic -->
+<text class="sm" x="860" y="488" fill="var(--series3)" style="font-weight:700">NO</text>
+<path d="M 890 418 L 930 418 L 930 500" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- Row 5: Three solver boxes -->
+<!-- C++ SCDP -->
+<g transform="translate(20,500)"><rect width="260" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf)"/>
+<rect x="10" y="9" width="96" height="18" rx="9" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="58" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">EXACT (C++)</text>
+<text class="nt" x="14" y="48">C++ State-Compressed DP</text>
+<text class="ns" x="14" y="64">via pybind11 (_core module)</text>
+<text class="sm" x="14" y="82">O(n² · 2ⁿ) · n ≤ 10</text>
+<text class="sm" x="14" y="98">Global optimum guaranteed</text>
+<text class="ns" x="14" y="113">(Fail: n≤8→PyDP, n&gt;8→Heur)</text></g>
+
+<!-- Python SCDP -->
+<g transform="translate(370,500)"><rect width="260" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf)"/>
+<rect x="10" y="9" width="116" height="18" rx="9" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="68" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">EXACT (Python)</text>
+<text class="nt" x="14" y="48">Python SCDP Fallback</text>
+<text class="ns" x="14" y="64">_solve_tsp_dp() method</text>
+<text class="sm" x="14" y="82">O(n² · 2ⁿ) · n ≤ 8</text>
+<text class="sm" x="14" y="98">Global optimum guaranteed</text>
+<text class="ns" x="14" y="113">Fallback when C++ not loaded</text></g>
+
+<!-- Heuristic -->
+<g transform="translate(720,500)"><rect width="240" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf)"/>
+<rect x="10" y="9" width="96" height="18" rx="9" fill="var(--series3)" opacity=".14"/>
+<text class="sm" x="58" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">HEURISTIC</text>
+<text class="nt" x="14" y="48">Greedy NN + 2-opt</text>
+<text class="ns" x="14" y="64">_solve_tsp_heuristic()</text>
+<text class="sm" x="14" y="82">O(n²) · n &gt; 10 or n &gt; 8</text>
+<text class="sm" x="14" y="98">Near-optimal, fast</text>
+<text class="ns" x="14" y="113">Fallback for large instances</text></g>
+
+<!-- Connectors row5 -> row6 (merge to Optimal Path) -->
+<path d="M 150 620 L 150 660 L 490 660 L 490 678" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 500 620 L 500 678" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab)" stroke-linecap="round"/>
+<path d="M 840 620 L 840 660 L 490 660" fill="none" stroke="var(--series3)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- Row 6: Optimal Path -->
+<g transform="translate(330,678)"><rect width="320" height="56" rx="28" fill="var(--surface)" stroke="var(--brand)" stroke-width="1.7" filter="url(#sf)"/>
+<text class="nt" x="160" y="34" text-anchor="middle">Optimal Visit Order (Node Sequence)</text></g>
+
+<!-- Connector row6 -> row7 -->
+<path d="M 490 734 L 490 762" fill="none" stroke="var(--brand)" stroke-width="1.7" marker-end="url(#abr)" stroke-linecap="round"/>
+
+<!-- Row 7: Output (User/Frontend) -->
+<g transform="translate(40,762)"><rect width="900" height="68" rx="10" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf)"/>
+<text class="nt" x="14" y="28">Decompose &amp; Output</text>
+<text class="ns" x="14" y="50">Total Distance (km) · Total AQI Exposure · Health Score · Navigation Advice</text></g>
+
+</svg>
+</div>
+</body></html>

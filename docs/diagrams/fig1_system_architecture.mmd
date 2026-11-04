@@ -1,0 +1,37 @@
+graph TD
+    subgraph L1[用户交互层]
+        A1[Vue 3.5.30 + Vite 8.0.0]
+        A2[用户输入界面]
+        A3[地图展示]
+        A4[模式选择]
+    end
+
+    subgraph L2[数据交互层]
+        B1[Flask 2.0.1 + Flask-SocketIO 5.1.0]
+        B2[高德地图API v3]
+        B3[Open-Meteo空气质量API]
+    end
+
+    subgraph L3[优化决策层]
+        C1[Python后端路由规划器]
+        C2[pybind11接口桥接]
+        C3[C++17 状态压缩动态规划求解器]
+    end
+
+    subgraph L4[应用服务层]
+        D1[推荐路线输出]
+        D2[健康评分计算]
+        D3[污染暴露评估]
+        D4[导航功能建议]
+    end
+
+    A1 --> B1
+    B1 --> C1
+    C1 --> C2
+    C2 --> C3
+    C1 --> D1
+    C1 --> D2
+    C1 --> D3
+    C1 --> D4
+    B2 --> C1
+    B3 --> C1

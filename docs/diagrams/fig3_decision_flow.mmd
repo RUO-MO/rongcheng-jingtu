@@ -1,0 +1,31 @@
+graph TD
+    START[开始优化决策] --> INPUT[输入:距离矩阵/AQI数据/偏好权重]
+    INPUT --> BUILD[构建综合成本矩阵<br/>Min-Max归一化<br/>加权求和]
+
+    BUILD --> CHECK1{C++模块是否可用}
+
+    CHECK1 -- 是 --> CHECK2{节点数 ≤ 10}
+    CHECK1 -- 否 --> CHECK3{节点数 ≤ 8}
+
+    CHECK2 -- 是 --> CPP_SDP[C++状态压缩动态规划<br/>精确解]
+    CHECK2 -- 否 --> HEURISTIC[启发式贪心算法<br/>最近邻+2-opt]
+
+    CHECK3 -- 是 --> PY_SDP[Python状态压缩动态规划<br/>精确解]
+    CHECK3 -- 否 --> HEURISTIC
+
+    CPP_SDP --> OUTPUT
+    PY_SDP --> OUTPUT
+    HEURISTIC --> OUTPUT
+
+    OUTPUT[输出最优访问顺序及综合代价]
+
+    style START fill:#1f2937,color:#fff
+    style INPUT fill:#3b82f6,color:#fff
+    style BUILD fill:#6366f1,color:#fff
+    style CHECK1 fill:#f59e0b,color:#fff
+    style CHECK2 fill:#f59e0b,color:#fff
+    style CHECK3 fill:#f59e0b,color:#fff
+    style CPP_SDP fill:#10b981,color:#fff
+    style PY_SDP fill:#10b981,color:#fff
+    style HEURISTIC fill:#ef4444,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff

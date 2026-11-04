@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>图 3-X 优化决策层流程图（中文）</title>
+<style>
+:root{--bg:#fff;--surface:#F7F8FA;--border:#D9DDE3;--text:#1D2433;--text-muted:#5B6472;--brand:#7C5CFF;--series1:#7C5CFF;--series2:#1FB4A0;--series3:#F2A93B;--series4:#4F8CFF;--series5:#E05A5A;--radius:12px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);padding:24px;font-family:"Microsoft YaHei",system-ui,"PingFang SC","Segoe UI",sans-serif;}
+.t{font:600 22px/30px "Microsoft YaHei",system-ui;margin:0 0 10px 0;}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px;font-size:14px;}
+.legend .chip{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:999px;background:var(--surface);color:var(--text-muted);border:1px solid #E7EAF0;}
+.legend .dot{width:14px;height:14px;border-radius:50%;}
+.wrap{width:100%;max-width:1500px;}
+svg{width:100%;height:auto;display:block;}
+.nt{font:600 15px "Microsoft YaHei",system-ui;fill:var(--text);}
+.ns{font:13px "Microsoft YaHei",system-ui;fill:var(--text-muted);}
+.sm{font:12px "Microsoft YaHei",system-ui;fill:var(--text);}
+</style>
+</head><body>
+<p class="t">图 3-X 优化决策层流程图（中文版）</p>
+<div class="legend">
+  <span class="chip"><span class="dot" style="background:var(--series4)"></span>用户 / 前端</span>
+  <span class="chip"><span class="dot" style="background:var(--series1)"></span>后端服务</span>
+  <span class="chip"><span class="dot" style="background:var(--series2)"></span>外部平台</span>
+  <span class="chip"><span class="dot" style="background:var(--series3)"></span>优化核心</span>
+</div>
+<div class="wrap">
+<svg viewBox="0 0 980 880" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ae2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--text-muted)"/></marker>
+<marker id="ab2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series2)"/></marker>
+<marker id="aw2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--series3)"/></marker>
+<marker id="abr2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L7 4 L1 7 Z" fill="var(--brand)"/></marker>
+<filter id="sf2" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity=".06"/></filter>
+</defs>
+
+<!-- 第一行：输入 -->
+<g transform="translate(40,30)"><rect width="250" height="72" rx="10" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="14" y="28">距离矩阵 D</text>
+<text class="ns" x="14" y="46">各节点间驾车距离（公里）</text>
+<text class="sm" x="14" y="62">来源：高德地图驾车路线 API</text></g>
+<g transform="translate(360,30)"><rect width="250" height="72" rx="10" fill="var(--surface)" stroke="var(--series2)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="14" y="28">AQI 暴露矩阵 A</text>
+<text class="ns" x="14" y="46">各路段空气质量指数</text>
+<text class="sm" x="14" y="62">来源：空气质量监测平台</text></g>
+<g transform="translate(680,30)"><rect width="260" height="72" rx="10" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="14" y="28">权重参数 α, β</text>
+<text class="ns" x="14" y="46">α + β = 1</text>
+<text class="sm" x="14" y="62">最短距离 / 均衡模式 / 空气最好</text></g>
+
+<!-- 连线 第一行->第二行 -->
+<path d="M 165 102 L 165 130 L 490 130 L 490 150" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae2)" stroke-linecap="round"/>
+<path d="M 485 102 L 485 150" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae2)" stroke-linecap="round"/>
+<path d="M 810 102 L 810 130 L 490 130" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round"/>
+
+<!-- 第二行：构建成本矩阵 C（后端） -->
+<g transform="translate(315,150)"><rect width="350" height="68" rx="10" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="14" y="28">构建综合成本矩阵 C</text>
+<text class="ns" x="14" y="50">Min-Max 归一化 → C = α·D_norm + β·A_norm</text></g>
+
+<!-- 连线 第二行->第三行 -->
+<path d="M 490 218 L 490 248" fill="none" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#ae2)" stroke-linecap="round"/>
+
+<!-- 第三行：判断菱形1 — C++模块是否可用 -->
+<g transform="translate(350,248)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="140" y="42" text-anchor="middle">C++ 模块是否已加载？</text>
+<text class="nt" x="140" y="60" text-anchor="middle">(HAS_CPP == True)</text></g>
+
+<!-- 是 → 左侧判断 n≤10 -->
+<text class="sm" x="170" y="360" fill="var(--series2)" style="font-weight:700">是</text>
+<path d="M 350 296 L 230 296 L 230 370" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 否 → 右侧判断 n≤8 -->
+<text class="sm" x="650" y="360" fill="var(--series3)" style="font-weight:700">否</text>
+<path d="M 630 296 L 750 296 L 750 370" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 第四行左：菱形 n≤10? -->
+<g transform="translate(90,370)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="140" y="52" text-anchor="middle">n ≤ 10 ？</text></g>
+
+<!-- 是 → C++ SCDP -->
+<text class="sm" x="50" y="488" fill="var(--series2)" style="font-weight:700">是</text>
+<path d="M 90 418 L 50 418 L 50 500" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 否 → 启发式 -->
+<text class="sm" x="340" y="488" fill="var(--series3)" style="font-weight:700">否</text>
+<path d="M 370 418 L 420 418 L 420 500" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 第四行右：菱形 n≤8? -->
+<g transform="translate(610,370)"><path d="M 140 0 L 280 48 L 140 96 L 0 48 Z" fill="var(--surface)" stroke="var(--series1)" stroke-width="1.5" filter="url(#sf2)"/>
+<text class="nt" x="140" y="52" text-anchor="middle">n ≤ 8 ？</text></g>
+
+<!-- 是 → Python SCDP -->
+<text class="sm" x="570" y="488" fill="var(--series2)" style="font-weight:700">是</text>
+<path d="M 610 418 L 570 418 L 570 500" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 否 → 启发式 -->
+<text class="sm" x="860" y="488" fill="var(--series3)" style="font-weight:700">否</text>
+<path d="M 890 418 L 930 418 L 930 500" fill="none" stroke="var(--series3)" stroke-width="1.7" marker-end="url(#aw2)" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 第五行：三个求解器 -->
+<!-- C++ SCDP -->
+<g transform="translate(20,500)"><rect width="260" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf2)"/>
+<rect x="10" y="9" width="80" height="18" rx="9" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="50" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">精确(C++)</text>
+<text class="nt" x="14" y="48">C++ 状态压缩动态规划</text>
+<text class="ns" x="14" y="64">通过 pybind11 调用 (_core)</text>
+<text class="sm" x="14" y="82">复杂度：O(n² · 2ⁿ) · n ≤ 10</text>
+<text class="sm" x="14" y="98">保证全局最优</text>
+<text class="ns" x="14" y="113">(失败回退:n≤8→PyDP,n>8→启发)</text></g>
+
+<!-- Python SCDP -->
+<g transform="translate(370,500)"><rect width="260" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf2)"/>
+<rect x="10" y="9" width="96" height="18" rx="9" fill="var(--series3)" opacity=".12"/>
+<text class="sm" x="58" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">精确(Python)</text>
+<text class="nt" x="14" y="48">Python SCDP 回退</text>
+<text class="ns" x="14" y="64">_solve_tsp_dp() 方法</text>
+<text class="sm" x="14" y="82">复杂度：O(n² · 2ⁿ) · n ≤ 8</text>
+<text class="sm" x="14" y="98">保证全局最优</text>
+<text class="ns" x="14" y="113">C++未加载时回退</text></g>
+
+<!-- 启发式 -->
+<g transform="translate(720,500)"><rect width="240" height="120" rx="10" fill="var(--surface)" stroke="var(--series3)" stroke-width="1.7" filter="url(#sf2)"/>
+<rect x="10" y="9" width="60" height="18" rx="9" fill="var(--series3)" opacity=".14"/>
+<text class="sm" x="40" y="22" text-anchor="middle" fill="var(--series3)" style="font-weight:700">启发式</text>
+<text class="nt" x="14" y="48">贪心最近邻 + 2-opt</text>
+<text class="ns" x="14" y="64">_solve_tsp_heuristic()</text>
+<text class="sm" x="14" y="82">复杂度：O(n²) · n>10 或 n>8</text>
+<text class="sm" x="14" y="98">近似最优，速度快</text>
+<text class="ns" x="14" y="113">大规模实例回退</text></g>
+
+<!-- 连线 第五行->第六行（汇合到最优路径） -->
+<path d="M 150 620 L 150 660 L 490 660 L 490 678" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab2)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 500 620 L 500 678" fill="none" stroke="var(--series2)" stroke-width="1.7" marker-end="url(#ab2)" stroke-linecap="round"/>
+<path d="M 840 620 L 840 660 L 490 660" fill="none" stroke="var(--series3)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- 第六行：最优路径 -->
+<g transform="translate(330,678)"><rect width="320" height="56" rx="28" fill="var(--surface)" stroke="var(--brand)" stroke-width="1.7" filter="url(#sf2)"/>
+<text class="nt" x="160" y="34" text-anchor="middle">最优访问顺序（节点排列）</text></g>
+
+<!-- 连线 第六行->第七行 -->
+<path d="M 490 734 L 490 762" fill="none" stroke="var(--brand)" stroke-width="1.7" marker-end="url(#abr2)" stroke-linecap="round"/>
+
+<!-- 第七行：输出（用户/前端） -->
+<g transform="translate(40,762)"><rect width="900" height="68" rx="10" fill="var(--surface)" stroke="var(--series4)" stroke-width="1.7" filter="url(#sf2)"/>
+<text class="nt" x="14" y="28">成本分解与输出</text>
+<text class="ns" x="14" y="50">总距离（km）· AQI暴露总量 · 健康评分 · 导航建议</text></g>
+
+</svg>
+</div>
+</body></html>

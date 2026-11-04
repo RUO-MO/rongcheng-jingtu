@@ -1,0 +1,123 @@
+\begin{table}[htbp]
+\centering
+\caption{Optimization Quality Comparison}
+\label{tab:quality}
+\begin{tabular}{crrrrrrrrr}
+\hline
+$n$ & SCDP Cost & Dist.(km) & AQI Exp. & Greedy (mean$\pm$std) & Gap(\%) & $p$ & GA (mean$\pm$std) & Gap(\%) & $p$ \\
+\hline
+5 & 2.7399 & 50.30 & 447.52 & 2.8210$\pm$0.0479 & 2.96 & 0.0000 & 2.7399$\pm$0.0000 & 0.00 & 1.0000 \\
+8 & 3.8053 & 71.84 & 704.29 & 3.8899$\pm$0.0398 & 2.22 & 0.0000 & 3.8053$\pm$0.0000 & 0.00 & 0.1573 \\
+10 & 4.5427 & 72.02 & 924.80 & 4.6610$\pm$0.0765 & 2.61 & 0.0000 & 4.5452$\pm$0.0098 & 0.06 & 0.0030 \\
+12 & 5.1399 & 96.76 & 1119.66 & 5.3071$\pm$0.0226 & 3.25 & 0.0000 & 5.1506$\pm$0.0129 & 0.21 & 0.0000 \\
+15 & 6.4346 & 215.99 & 1383.81 & 6.5528$\pm$0.0535 & 1.84 & 0.0000 & 6.4728$\pm$0.0211 & 0.59 & 0.0000 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Computational Efficiency (ms)}
+\label{tab:efficiency}
+\begin{tabular}{crrr}
+\hline
+$n$ & SCDP & Greedy & GA \\
+\hline
+5 & 0.04$\pm$0.00 & 0.00$\pm$0.00 & 3832.67$\pm$269.13 \\
+8 & 0.64$\pm$0.13 & 0.01$\pm$0.00 & 5373.57$\pm$2908.26 \\
+10 & 6.53$\pm$0.61 & 0.03$\pm$0.02 & 10377.15$\pm$5537.64 \\
+12 & 23.87$\pm$6.56 & 0.02$\pm$0.00 & 4954.69$\pm$49.53 \\
+15 & 284.42$\pm$8.95 & 0.02$\pm$0.00 & 5839.26$\pm$173.95 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Weight Sensitivity (Ablation Study, $n{=}8$)}
+\label{tab:sensitivity}
+\begin{tabular}{ccrrr}
+\hline
+$\alpha$ & $\beta$ & Dist.(km) & AQI Exp. & Comp. Cost \\
+\hline
+0.0 & 1.0 & 95.57 & 628.19 & 4.1800 \\
+0.2 & 0.8 & 95.57 & 628.19 & 4.1220 \\
+0.4 & 0.6 & 82.48 & 659.20 & 3.9747 \\
+0.5 & 0.5 & 71.84 & 704.29 & 3.8053 \\
+0.6 & 0.4 & 60.98 & 797.66 & 3.6124 \\
+0.8 & 0.2 & 60.12 & 813.46 & 3.0402 \\
+1.0 & 0.0 & 60.12 & 813.46 & 2.4471 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Traditional vs Health-Aware Routing ($n{=}8$)}
+\label{tab:trad_vs_health}
+\begin{tabular}{lrr}
+\hline
+Metric & Traditional ($\alpha{=}1.0$) & Health-Aware ($\alpha{=}0.5$) \\
+\hline
+Route Distance (km) & 60.12 & 71.84 \\
+Average AQI & 101.68 & 88.04 \\
+Cumulative Exposure & 813.46 & 704.29 \\
+Health Score & 94.59 & 95.31 \\
+Exposure Reduction (\%) & -- & 13.42 \\
+$p$-value (Wilcoxon) & 0.0000 & -- \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{End-to-End Latency Breakdown}
+\label{tab:latency}
+\begin{tabular}{crrrrr}
+\hline
+$n$ & API Delay & DP Compute & Overhead & Total & P95 \\
+\hline
+5 & 489.3 & 0.04 & 29.7 & 478.6$\pm$178.4 & 816.3 \\
+8 & 503.1 & 0.64 & 30.2 & 524.1$\pm$183.1 & 794.2 \\
+10 & 502.5 & 6.53 & 27.0 & 586.3$\pm$181.4 & 813.2 \\
+12 & 488.8 & 23.87 & 30.3 & 571.4$\pm$183.7 & 836.8 \\
+15 & 498.2 & 5839.26 & 27.8 & 6445.1$\pm$180.7 & 6667.4 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Functional Test Results}
+\label{tab:functional}
+\begin{tabular}{lcrrr}
+\hline
+Test Case & $n$ & SCDP Cost & Greedy Cost & Status \\
+\hline
+3-node trivial & 3 & 2.3375 & 2.3375 & PASS \\
+4-node symmetric & 4 & 2.0694 & 2.1667 & PASS \\
+5-node asymmetric-edge & 5 & 1.9500 & 2.1000 & PASS \\
+5-node dual-objective & 5 & 2.7829 & 2.9189 & PASS \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Performance Summary}
+\label{tab:summary}
+\begin{tabular}{llr}
+\hline
+Aspect & Metric & Value \\
+\hline
+Optimality Guarantee & SCDP vs Greedy Avg Gap & 2.58\% \\
+Optimality Guarantee & SCDP vs GA Avg Gap & 0.17\% \\
+Health-Aware Benefit & Pollution Exposure Reduction & 13.42\% \\
+Health-Aware Benefit & Health Score Improvement & 0.73 (94.59$\to$95.31) \\
+Multi-Mode Flexibility & Distance Variation & 59.0\% (range=35.45km) \\
+Multi-Mode Flexibility & AQI Exposure Variation & 29.5\% (range=185.27) \\
+Computational Trade-off & SCDP/Greedy Time Ratio (avg) & 3114.9$\times$ \\
+Computational Trade-off & SCDP/Greedy Time Ratio (max) & 13667.4$\times$ \\
+\hline
+\end{tabular}
+\end{table}

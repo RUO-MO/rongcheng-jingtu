@@ -1,0 +1,23 @@
+graph TD
+    START[开始] --> INIT[步骤一:初始化状态表<br/>设定起始节点的访问代价为零]
+
+    INIT --> ENUM[步骤二:枚举所有可能的访问状态<br/>使用二进制掩码表示已访问节点集合]
+
+    ENUM --> TRANS[步骤三:状态转移更新<br/>尝试从当前节点移动到未访问节点<br/>计算新状态的最小访问代价]
+
+    TRANS --> LOOP{是否完成<br/>所有状态枚举}
+    LOOP -- 否 --> ENUM
+    LOOP -- 是 --> FIND[在完整状态中<br/>寻找最小总代价的终点]
+
+    FIND --> BACK[步骤四:最优路径恢复<br/>通过前驱记录反向回溯<br/>还原完整访问顺序]
+
+    BACK --> OUTPUT[步骤五:生成导航结果<br/>输出推荐路线<br/>计算健康评分与暴露评价<br/>生成防护建议]
+
+    style START fill:#1f2937,color:#fff
+    style INIT fill:#3b82f6,color:#fff
+    style ENUM fill:#6366f1,color:#fff
+    style TRANS fill:#6366f1,color:#fff
+    style LOOP fill:#f59e0b,color:#fff
+    style FIND fill:#10b981,color:#fff
+    style BACK fill:#10b981,color:#fff
+    style OUTPUT fill:#1f2937,color:#fff
