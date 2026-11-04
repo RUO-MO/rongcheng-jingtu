@@ -28,6 +28,9 @@ authors:
   - given-names: Enyao
     family-names: He
     affiliation: Chengdu Jincheng College
+  - given-names: Suyuan
+    family-names: Huang
+    affiliation: Chengdu Jincheng College
 repository-code: "https://github.com/RUO-MO/rongcheng-jingtu"
 url: "https://github.com/RUO-MO/rongcheng-jingtu"
 license: MIT
