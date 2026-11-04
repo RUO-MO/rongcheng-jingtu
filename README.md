@@ -15,7 +15,7 @@
 - [7. 配置说明](#7-配置说明)
 - [8. API 文档](#8-api-文档)
 - [9. 实验数据与复现](#9-实验数据与复现)
-- [10. 数据可用性声明（论文投稿用）](#10-数据可用性声明论文投稿用)
+- [10. 数据可用性声明](#10-数据可用性声明)
 - [11. 生产部署](#11-生产部署)
 - [12. 常见问题](#12-常见问题)
 - [13. 引用](#13-引用)
@@ -132,6 +132,7 @@ rongcheng-jingtu/
 │   ├── api_client.py            # 高德 Web 服务封装（地理编码/驾车距离/路况）
 │   ├── utils.py                 # estimate_aqi 封装
 │   ├── fetch_aqi_openmeteo.py   # Open-Meteo 实时 AQI 抓取
+│   ├── main.py                  # 命令行规划入口（无需启动 Web 服务）
 │   ├── config.example.py        # 配置模板（复制为 config.py）
 │   └── requirements.txt
 ├── frontend/                    # Vue 3 + Vite 前端
@@ -222,7 +223,16 @@ export pybind11_DIR=$(python -c "import pybind11; print(pybind11.get_cmake_dir()
 
 未编译时系统自动使用 Python SCDP，功能不受影响。
 
-### 6.5 一键启动（Windows）
+### 6.5 命令行规划（可选）
+
+不启动 Web 服务，直接在终端验证后端与算法链路：
+
+```bash
+cd python
+python main.py "天府广场,宽窄巷子,武侯祠" --preference balanced
+```
+
+### 6.6 一键启动（Windows）
 
 ```bat
 start.bat
@@ -235,11 +245,10 @@ start.bat
 | 位置 | 变量 | 说明 |
 | --- | --- | --- |
 | `python/config.py` | `AMAP_API_KEY` | 高德 Web 服务 Key（后端地理编码/路径规划） |
-| `python/config.py` | `AMAP_SECURITY_CODE` | JS API 安全密钥（**前端**渲染时使用） |
 | `python/config.py` | `MAX_DESTINATIONS` | 目的地上限，默认 7 |
 | `python/config.py` | `DEFAULT_ALPHA` / `DEFAULT_BETA` | balanced 模式默认权重 |
 | `python/config.py` | `REQUEST_TIMEOUT` | 高德接口超时（秒） |
-| `frontend/.env` | `VITE_AMAP_SECURITY_CODE` | 注入到 `index.html` 的 `window._AMapSecurityConfig` |
+| `frontend/.env` | `VITE_AMAP_SECURITY_CODE` | 高德 JS API 安全密钥，注入到 `index.html` 的 `window._AMapSecurityConfig` |
 | 环境变量 | `FLASK_PORT` | 后端端口，默认 5000 |
 | 环境变量 | `SECRET_KEY` | Flask 会话密钥（生产环境务必设置） |
 
@@ -385,11 +394,11 @@ python experiments/scripts/verify_results.py        # 结果一致性校验
 
 ---
 
-## 10. 数据可用性声明（论文投稿用）
+## 10. 数据可用性声明
 
 投稿系统要求填写"数据可用性"时可直接使用以下文本：
 
-> **Data availability.** All source code, experiment scripts, raw result files, random seeds and hyper-parameter settings supporting the findings of this study are openly available in the *Rongcheng Jingtu* repository at `https://github.com/RUO-MO/-`. An archived snapshot with a DOI will be provided upon release. No restricted or proprietary data were used. Air quality observations were retrieved from the Open-Meteo Air Quality API (<https://open-meteo.com/>); road-network distances were obtained via the AMap Web Service API under its standard terms of use.
+> **Data availability.** All source code, experiment scripts, raw result files, random seeds and hyper-parameter settings supporting the findings of this study are openly available in the *Rongcheng Jingtu* repository at `https://github.com/RUO-MO/rongcheng-jingtu`. An archived snapshot with a DOI will be provided upon release. No restricted or proprietary data were used. Air quality observations were retrieved from the Open-Meteo Air Quality API (<https://open-meteo.com/>); road-network distances were obtained via the AMap Web Service API under its standard terms of use.
 
 建议归档流程：GitHub 仓库 → Zenodo（或 figshare）Release → 获得 DOI → 回填投稿页的 *Data repository link*、*Repository name*（选 GitHub / Zenodo）、*Source of data*（选 **Original data**）。
 
@@ -447,7 +456,7 @@ location /socket.io/ {
   author = {Rongcheng Jingtu Contributors},
   year   = {2026},
   note   = {State-compressed dynamic programming for bi-objective multi-destination routing},
-  url    = {https://github.com/RUO-MO/-}
+  url    = {https://github.com/RUO-MO/rongcheng-jingtu}
 }
 ```
 
