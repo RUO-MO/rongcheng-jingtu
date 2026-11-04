@@ -398,11 +398,11 @@ python experiments/scripts/verify_results.py        # 结果一致性校验
 
 投稿系统要求填写"数据可用性"时可直接使用以下文本：
 
-> **Data availability.** All source code, experiment scripts, raw result files, random seeds and hyper-parameter settings supporting the findings of this study are openly available in the *Rongcheng Jingtu* repository at `https://github.com/RUO-MO/rongcheng-jingtu`. An archived snapshot with a DOI will be provided upon release. No restricted or proprietary data were used. Air quality observations were retrieved from the Open-Meteo Air Quality API (<https://open-meteo.com/>); road-network distances were obtained via the AMap Web Service API under its standard terms of use.
+> **Data availability.** All source code, experiment scripts, raw result files, random seeds and hyper-parameter settings supporting the findings of this study are openly available in the *Rongcheng Jingtu* repository at `https://github.com/RUO-MO/rongcheng-jingtu`. The archived snapshot analysed in this study is available at <https://doi.org/10.5281/zenodo.23939568> (version DOI); the concept DOI covering all versions is <https://doi.org/10.5281/zenodo.23939567>. No restricted or proprietary data were used. Air quality observations were retrieved from the Open-Meteo Air Quality API (<https://open-meteo.com/>); road-network distances were obtained via the AMap Web Service API under its standard terms of use.
 
-建议归档流程：GitHub 仓库 → Zenodo（或 figshare）Release → 获得 DOI → 回填投稿页的 *Data repository link*、*Repository name*（选 GitHub / Zenodo）、*Source of data*（选 **Original data**）。
+本数据集已完成归档：GitHub Release `v1.0.0` 已由 Zenodo 自动收录，版本 DOI 为 `10.5281/zenodo.23939568`，概念 DOI 为 `10.5281/zenodo.23939567`。投稿页填写时，*Link to data repository* 填 `https://doi.org/10.5281/zenodo.23939568`，*Repository name* 选 **Zenodo**，*Source of data* 选 **Original data**。
 
-仓库根目录已提供 Zenodo 元数据 [`.zenodo.json`](.zenodo.json) 与 [`CITATION.cff`](CITATION.cff)：在 Zenodo 中启用该仓库的 GitHub 集成后，每次发布 GitHub Release 都会自动归档并生成版本 DOI；拿到 DOI 后请把上面的链接与引用信息替换为 `https://doi.org/...`。
+仓库根目录的 [`.zenodo.json`](.zenodo.json) 与 [`CITATION.cff`](CITATION.cff) 已写入最终作者列表与 DOI。后续每次发布 GitHub Release，Zenodo 都会自动归档并生成新的版本 DOI，概念 DOI 保持不变。
 
 ---
 
@@ -453,12 +453,14 @@ location /socket.io/ {
 ## 13. 引用
 
 ```bibtex
-@software{rongcheng_jingtu,
-  title  = {蓉城净途：面向空气质量的健康路径导航系统},
-  author = {Yan, Min and Ma, Rui and Yang, Yan and Luo, Zhangmin and He, Enyao and Huang, Suyuan},
-  year   = {2026},
-  note   = {State-compressed dynamic programming for bi-objective multi-destination routing},
-  url    = {https://github.com/RUO-MO/rongcheng-jingtu}
+@dataset{rongcheng_jingtu,
+  title     = {Rongcheng Jingtu Multi-Destination Route Planning Dataset: Distance and Air-Quality Matrices, Optimal Routes, and Benchmark Results},
+  author    = {Yan, Min and Ma, Rui and Yang, Yan and Luo, Zhangmin and He, Enyao and Huang, Suyuan},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {v1.0.0},
+  doi       = {10.5281/zenodo.23939568},
+  url       = {https://doi.org/10.5281/zenodo.23939568}
 }
 ```
 

@@ -35,6 +35,7 @@ repository-code: "https://github.com/RUO-MO/rongcheng-jingtu"
 url: "https://github.com/RUO-MO/rongcheng-jingtu"
 license: MIT
 version: "1.0.0"
+doi: "10.5281/zenodo.23939568"
 date-released: "2026-11-04"
 keywords:
   - path planning
