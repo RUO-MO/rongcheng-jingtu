@@ -1,70 +1,70 @@
-# 蓉城净途 · Web 前端
+# Rongcheng Jingtu · Web Frontend
 
-基于 **Vue 3 + Vite** 的交互式健康导航界面，负责地图渲染、起点/目的地输入、路线偏好切换、结果展示与实时导航。前端通过 REST 与 Socket.IO 调用 `python/` 后端，地图能力来自高德地图 JS API 2.0。
+An interactive health-aware navigation interface built with **Vue 3 + Vite**. It handles map rendering, origin/destination input, preference switching, result presentation and real-time navigation. The frontend calls the `python/` backend over REST and Socket.IO, and relies on AMap JS API 2.0 for mapping.
 
-## 环境要求
+## Requirements
 
-| 依赖 | 版本 |
+| Dependency | Version |
 | --- | --- |
-| Node.js | ≥ 20.19（Vite 8 要求） |
-| 高德 JS API | 安全密钥 `VITE_AMAP_SECURITY_CODE`（与后端 Web 服务 Key 同一账号） |
+| Node.js | >= 20.19 (required by Vite 8) |
+| AMap JS API | security code `VITE_AMAP_SECURITY_CODE` (same account as the backend Web Service key) |
 
-## 快速开始
+## Quick Start
 
 ```bash
 npm install
-copy .env.example .env      # Windows；Linux/macOS 用 cp
-# 编辑 .env，填入 VITE_AMAP_SECURITY_CODE
+copy .env.example .env      # Windows; use cp on Linux/macOS
+# edit .env and set VITE_AMAP_SECURITY_CODE
 npm run dev                 # http://localhost:3000
 ```
 
-- 中文界面：<http://localhost:3000/index.html>
-- 英文界面：<http://localhost:3000/index_en.html>
+- Chinese UI: <http://localhost:3000/index.html>
+- English UI: <http://localhost:3000/index_en.html>
 
-开发服务器会把 `/api` 与 `/socket.io`（含 WebSocket 升级）代理到 `http://localhost:5000`，因此需先启动后端。
+The dev server proxies `/api` and `/socket.io` (including the WebSocket upgrade) to `http://localhost:5000`, so start the backend first.
 
-## 可用命令
+## Commands
 
-| 命令 | 作用 |
+| Command | Purpose |
 | --- | --- |
-| `npm run dev` | 启动开发服务器（端口 3000，监听 `0.0.0.0`） |
-| `npm run build` | 生产构建，双入口产物输出到 `dist/` |
-| `npm run preview` | 本地预览构建产物 |
+| `npm run dev` | Start the dev server (port 3000, listening on `0.0.0.0`) |
+| `npm run build` | Production build; both entry points are written to `dist/` |
+| `npm run preview` | Preview the built artefacts locally |
 
-## 目录结构
+## Directory Structure
 
 ```
 frontend/
-├── index.html                 # 中文入口，注入安全密钥
-├── index_en.html              # 英文入口
-├── vite.config.js             # 双入口构建 + API/Socket.IO 代理
-├── .env.example               # 环境变量模板
+├── index.html                 # Chinese entry, injects the security code
+├── index_en.html              # English entry
+├── vite.config.js             # dual-entry build + API/Socket.IO proxy
+├── .env.example               # environment variable template
 ├── public/
 │   └── favicon.svg
 └── src/
-    ├── main_zh.js / main_en.js # 两套入口的挂载脚本
+    ├── main_zh.js / main_en.js # mount scripts for the two entries
     ├── App.vue
-    ├── components/            # HomeView 等页面组件
-    ├── composables/           # useAMapStrict：地图加载与实例管理
-    ├── locales/               # zh.js / en.js 文案
-    ├── router/                # vue-router 配置
+    ├── components/            # page components such as HomeView
+    ├── composables/           # useAMapStrict: map loading and instance management
+    ├── locales/               # zh.js / en.js UI strings
+    ├── router/                # vue-router configuration
     └── style.css
 ```
 
-## 交互状态说明
+## Interaction States
 
-- **加载中**：地图初始化前展示骨架占位，规划请求期间按钮进入禁用态。
-- **空状态**：未选择目的地时结果面板提示输入起点与目的地，不发起请求。
-- **错误**：参数超限、密钥失效或后端不可达时，面板显示可读错误信息并保留用户输入。
-- **成功**：展示最优访问顺序、总距离、平均 AQI、健康评分与逐站 AQI，并在地图上绘制路线。
+- **Loading**: a skeleton placeholder is shown before the map initialises; buttons are disabled while a planning request is in flight.
+- **Empty**: when no destination is selected, the result panel prompts for an origin and destinations and no request is sent.
+- **Error**: invalid parameters, an expired key or an unreachable backend produce a readable message in the panel while keeping the user's input.
+- **Success**: the optimal visiting order, total distance, average AQI, health score and per-stop AQI are displayed, and the route is drawn on the map.
 
-## 常见问题
+## FAQ
 
-| 现象 | 排查 |
+| Symptom | Check |
 | --- | --- |
-| 地图空白 / `INVALID_USER_SCODE` | `.env` 未填写 `VITE_AMAP_SECURITY_CODE`，或修改后未重启 Vite |
-| 接口 404 / 连接被拒绝 | 后端未启动，或未监听 5000 端口 |
-| Socket.IO 频繁重连 | 代理未配置 `ws: true`，检查 `vite.config.js` |
-| 构建后刷新 404 | 部署端需将未知路由回退到 `index.html` |
+| Blank map / `INVALID_USER_SCODE` | `VITE_AMAP_SECURITY_CODE` is missing from `.env`, or Vite was not restarted after the change |
+| API 404 / connection refused | The backend is not running or not listening on port 5000 |
+| Frequent Socket.IO reconnects | The proxy is missing `ws: true`; check `vite.config.js` |
+| 404 after refreshing a built page | The deployment must fall back unknown routes to `index.html` |
 
-完整项目说明见仓库根目录 [`README.md`](../README.md)。
+See the root [README.md](../README.md) for the full project documentation.

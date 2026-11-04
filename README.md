@@ -1,208 +1,208 @@
-# 蓉城净途 · 面向空气质量的健康路径导航系统
+# Rongcheng Jingtu · Health-Aware Route Navigation System for Air Quality
 
-> 基于**状态压缩动态规划（SCDP）**的双目标（距离 × 空气质量）多目的地路径优化系统，提供 Web 端交互式健康导航，并附带完整的实验脚本、原始数据与随机种子，可一键复现论文全部结果。
+> A dual-objective (distance × air quality) multi-destination route optimisation system based on **state-compressed dynamic programming (SCDP)**, offering interactive health-aware navigation in the browser together with the complete experiment scripts, raw data and random seeds needed to reproduce every result in the paper with a single command.
 
-![主界面](figures/图2_主界面_中文.jpg)
+![Main interface](figures/Fig2_Main_Interface_EN.jpg)
 
-## 目录
+## Table of Contents
 
-- [1. 项目简介](#1-项目简介)
-- [2. 核心特性](#2-核心特性)
-- [3. 系统架构](#3-系统架构)
-- [4. 算法设计](#4-算法设计)
-- [5. 仓库结构](#5-仓库结构)
-- [6. 快速开始](#6-快速开始)
-- [7. 配置说明](#7-配置说明)
-- [8. API 文档](#8-api-文档)
-- [9. 实验数据与复现](#9-实验数据与复现)
-- [10. 数据可用性声明](#10-数据可用性声明)
-- [11. 生产部署](#11-生产部署)
-- [12. 常见问题](#12-常见问题)
-- [13. 引用](#13-引用)
-- [14. 许可证与致谢](#14-许可证与致谢)
-
----
-
-## 1. 项目简介
-
-**蓉城净途**（Rongcheng Jingtu）是面向成都市的智能健康导航系统。传统导航只优化"距离最短/时间最快"，忽略了沿途空气污染暴露对呼吸道敏感人群的健康影响。本项目将 **AQI（空气质量指数）** 引入路径代价函数，把多目的地路径规划建模为**双目标旅行商问题（TSP）**，并用状态压缩动态规划求精确最优解，最终在 Web 地图上呈现健康路线、健康评分与防护建议。
-
-**核心贡献**
-
-1. **双目标代价建模**：距离与 AQI 归一化后加权融合（green 模式对 AQI 做反向归一化），支持最短距离 / 最绿色 / 均衡推荐三种模式。
-2. **SCDP 精确求解器**：`O(n²·2ⁿ)` 时间、`O(n·2ⁿ)` 空间，在 n ≤ 15 的规模下毫秒级求全局最优，优于 Greedy 与 GA（见[实验结果](#9-实验数据与复现)）。
-3. **可选的 C++ 加速**：pybind11 导出的 C++ TSP 模块，顶层调度在模块缺失或调用失败时自动回退到 Python DP / 启发式算法，保证服务可用性。
-4. **完整可复现**：全部实验脚本、原始 JSON 结果、随机种子、论文表格与图件随仓库提供。
-
-> 系统同时提供中文（`index.html`）与英文（`index_en.html`）两套界面。
+- [1. Project Overview](#1-project-overview)
+- [2. Key Features](#2-key-features)
+- [3. System Architecture](#3-system-architecture)
+- [4. Algorithm Design](#4-algorithm-design)
+- [5. Repository Structure](#5-repository-structure)
+- [6. Quick Start](#6-quick-start)
+- [7. Configuration](#7-configuration)
+- [8. API Documentation](#8-api-documentation)
+- [9. Experimental Data and Reproducibility](#9-experimental-data-and-reproducibility)
+- [10. Data Availability Statement](#10-data-availability-statement)
+- [11. Production Deployment](#11-production-deployment)
+- [12. Frequently Asked Questions](#12-frequently-asked-questions)
+- [13. Citation](#13-citation)
+- [14. License and Acknowledgements](#14-license-and-acknowledgements)
 
 ---
 
-## 2. 核心特性
+## 1. Project Overview
 
-| 模块 | 能力 |
+**Rongcheng Jingtu (蓉城净途)** is an intelligent health-aware navigation system for the city of Chengdu. Conventional navigation optimises only "shortest distance / fastest time", ignoring the health impact of air-pollution exposure along the route on people with sensitive respiratory systems. This project introduces the **AQI (Air Quality Index)** into the path cost function, models multi-destination route planning as a **dual-objective travelling salesman problem (TSP)**, and solves it to exact optimality with state-compressed dynamic programming; the resulting health-aware routes, health scores and protective recommendations are then presented on a web map.
+
+**Core contributions**
+
+1. **Dual-objective cost modelling**: distance and AQI are normalised and then fused with weights (`green` mode applies an inverse normalisation to AQI), supporting three modes: shortest distance / greenest / balanced recommendation.
+2. **Exact SCDP solver**: `O(n²·2ⁿ)` time and `O(n·2ⁿ)` space, returning the global optimum within milliseconds for n ≤ 15, outperforming Greedy and GA (see [experimental results](#9-experimental-data-and-reproducibility)).
+3. **Optional C++ acceleration**: a pybind11-exported C++ TSP module; the top-level dispatcher automatically falls back to the Python DP / heuristic algorithms when the module is missing or the call fails, guaranteeing service availability.
+4. **Fully reproducible**: all experiment scripts, raw JSON results, random seeds, paper tables and figures are shipped with the repository.
+
+> The system provides both a Chinese (`index.html`) and an English (`index_en.html`) interface.
+
+---
+
+## 2. Key Features
+
+| Module | Capability |
 | --- | --- |
-| 多目的地规划 | 1 个起点 + 最多 7 个目的地（`MAX_DESTINATIONS`），输出最优访问顺序 |
-| 健康代价优化 | 距离 × AQI 双目标加权；AQI 来自 Open-Meteo 实时接口 |
-| 三种偏好 | `shortest`（α=1, β=0）/ `green`（α=0, β=1）/ `balanced`（α=β=0.5，可自定义） |
-| 健康评估 | 输出 0–100 健康评分、平均 AQI、污染暴露指数与逐站 AQI |
-| 实时导航 | GPS 定位、转向提示、剩余距离/时间；HTTP 与 Socket.IO 双通道 |
-| 智能输入 | 高德输入提示（限定成都市），点击自动补全 |
-| 双语界面 | 独立入口，vue-i18n 文案完整本地化 |
-| 工程保障 | 请求级日志与 `request_id`、距离/AQI 缓存、参数边界校验、异常降级 |
+| Multi-destination planning | 1 origin + up to 7 destinations (`MAX_DESTINATIONS`), returning the optimal visiting order |
+| Health cost optimisation | Distance × AQI dual-objective weighting; AQI obtained from the Open-Meteo real-time API |
+| Three preferences | `shortest` (α=1, β=0) / `green` (α=0, β=1) / `balanced` (α=β=0.5, user-configurable) |
+| Health assessment | 0–100 health score, mean AQI, pollution exposure index and per-stop AQI |
+| Real-time navigation | GPS positioning, turn-by-turn prompts, remaining distance/time; dual HTTP and Socket.IO channels |
+| Smart input | AMap input suggestions (restricted to Chengdu), auto-completion on selection |
+| Bilingual interface | Separate entry points, complete localisation via vue-i18n |
+| Engineering safeguards | Request-level logging with `request_id`, distance/AQI caching, parameter boundary validation, exception fallback |
 
 ---
 
-## 3. 系统架构
+## 3. System Architecture
 
-![系统架构](docs/diagrams/fig1_system_architecture.png)
+![System architecture](docs/diagrams/fig1_system_architecture.png)
 
 ```
-Vue 3 前端（高德地图 JS API 2.0）
+Vue 3 frontend (AMap JS API 2.0)
         │  REST / Socket.IO
         ▼
-Flask 后端（app.py，路由 + 校验 + 日志）
+Flask backend (app.py, routing + validation + logging)
         │
-        ├── RoutePlanner（代价矩阵、SCDP 求解、缓存）
-        │     ├── build_cost_matrix  ← 距离矩阵（高德驾车路径规划）
-        │     │                       ← AQI 列表（Open-Meteo）
-        │     └── solve_tsp          ← C++ _core（n ≤ 10）
-        │                               ← Python SCDP（n ≤ 8）
-        │                               ← 启发式（n > 8）
-        └── AMapClient（地理编码 / 路径距离 / 路况）
+        ├── RoutePlanner (cost matrix, SCDP solving, caching)
+        │     ├── build_cost_matrix  ← distance matrix (AMap driving route planning)
+        │     │                       ← AQI list (Open-Meteo)
+        │     └── solve_tsp          ← C++ _core (n ≤ 10)
+        │                               ← Python SCDP (n ≤ 8)
+        │                               ← heuristic (n > 8)
+        └── AMapClient (geocoding / route distance / traffic)
 ```
 
-**五阶段处理流程**
+**Five-stage processing pipeline**
 
-![五阶段流程](docs/diagrams/fig4_five_stage_flow.png)
+![Five-stage pipeline](docs/diagrams/fig4_five_stage_flow.png)
 
-技术栈：Vue 3 + Vite + 高德 JS API；Flask + Flask-SocketIO + Eventlet；C++17 + pybind11 + CMake；NumPy/SciPy/Matplotlib（实验）。
+Tech stack: Vue 3 + Vite + AMap JS API; Flask + Flask-SocketIO + Eventlet; C++17 + pybind11 + CMake; NumPy/SciPy/Matplotlib (experiments).
 
 ---
 
-## 4. 算法设计
+## 4. Algorithm Design
 
-### 4.1 双目标代价矩阵
+### 4.1 Dual-objective cost matrix
 
-设节点集合为 `V = {0, 1, …, n-1}`，`d_ij` 为 i→j 的驾车距离（米），`a_j` 为节点 j 的 AQI。距离按最大距离归一化、AQI 按最大 AQI 归一化（`green` 模式改用 Min-Max 反转，使低 AQI 获得更小代价）。边代价为：
+Let the node set be `V = {0, 1, …, n-1}`, `d_ij` the driving distance from i to j (metres) and `a_j` the AQI at node j. Distances are normalised by the maximum distance and AQI values by the maximum AQI (`green` mode instead uses a reversed Min-Max normalisation so that lower AQI yields a smaller cost). The edge cost is:
 
 ```
-balanced : C_ij = α · (d_ij / d_max) + β · (a_j / a_max)          （通常取 α + β = 1）
+balanced : C_ij = α · (d_ij / d_max) + β · (a_j / a_max)          (usually α + β = 1)
 shortest : C_ij = d_ij / d_max
-green    : C_ij = (a_max - a_j) / (a_max - a_min)                 （距离权重置 0）
+green    : C_ij = (a_max - a_j) / (a_max - a_min)                 (distance weight set to 0)
 ```
 
-### 4.2 状态压缩动态规划（SCDP）
+### 4.2 State-compressed dynamic programming (SCDP)
 
-以 `dp[mask][j]` 表示"已访问集合 mask、当前位于 j"的最小累计代价：
+`dp[mask][j]` denotes the minimum accumulated cost of having visited the set `mask` and currently standing at j:
 
 ```
 dp[1 << 0][0] = 0
 dp[mask ∪ {k}][k] = min{ dp[mask][j] + C_jk }        (k ∉ mask)
-answer = min_j dp[(1<<n)-1][j] + C_j0               （回到起点，构成闭环）
+answer = min_j dp[(1<<n)-1][j] + C_j0               (return to the origin, closing the tour)
 ```
 
-- 时间复杂度 `O(n²·2ⁿ)`，空间 `O(n·2ⁿ)`；
-- 使用 `parent` 数组回溯最优顺序；
-- 另有**固定起点—终点**变体（`solve_tsp_fixed_end`，中间节点 m ≤ 7 时精确求解），用于"终点固定、只优化途经点顺序"的场景。
+- Time complexity `O(n²·2ⁿ)`, space `O(n·2ⁿ)`;
+- The optimal order is reconstructed by backtracking through the `parent` array;
+- A **fixed origin–destination** variant (`solve_tsp_fixed_end`, exact for m ≤ 7 intermediate nodes) is also provided for scenarios where "the end point is fixed and only the order of waypoints is optimised".
 
-### 4.3 求解器调度与降级链
+### 4.3 Solver dispatch and fallback chain
 
-| 条件 | 求解器 | 说明 |
+| Condition | Solver | Note |
 | --- | --- | --- |
-| n ≤ 10 且 `_core` 可用 | C++ SCDP | 最优；失败时回退 |
-| n ≤ 8 | Python SCDP | 纯 Python 最优解 |
-| n > 8（且无 C++） | 启发式（最近邻 + 2-opt） | 近似解，保证响应时间 |
-| 固定终点、m ≤ 7 | Python DP（固定端点） | 精确 |
-| 固定终点、m > 7 | 启发式 | 近似 |
+| n ≤ 10 and `_core` available | C++ SCDP | Optimal; falls back on failure |
+| n ≤ 8 | Python SCDP | Pure-Python optimal solution |
+| n > 8 (and no C++) | Heuristic (nearest neighbour + 2-opt) | Approximate, bounded response time |
+| Fixed end point, m ≤ 7 | Python DP (fixed end points) | Exact |
+| Fixed end point, m > 7 | Heuristic | Approximate |
 
-Web 服务端受 `MAX_DESTINATIONS = 7` 限制（含起点共 8 节点），因此线上始终走精确解；实验脚本则独立生成 n = 5–15 的算例用于性能评估。
+The web service is bounded by `MAX_DESTINATIONS = 7` (8 nodes including the origin), so the online path always uses the exact solution; the experiment scripts independently generate instances with n = 5–15 for performance evaluation.
 
-> 路径约定：Python 实现与实验脚本求解**闭环 TSP**（回到起点）；C++ 模块（`cpp/src/TSP.cpp`）求解开放路径（不强制回到起点），Web 端在返回结果时额外计入"终点→起点"的代价，两种口径在报告中已分别标注。
+> Path convention: the Python implementation and the experiment scripts solve a **closed-loop TSP** (returning to the origin), whereas the C++ module (`cpp/src/TSP.cpp`) solves an open path (not forced to return to the origin). The web layer additionally accounts for the "destination→origin" cost when returning results; both conventions are annotated separately in the reports.
 
 ---
 
-## 5. 仓库结构
+## 5. Repository Structure
 
 ```
 rongcheng-jingtu/
-├── python/                      # Flask 后端
-│   ├── app.py                   # 应用入口、路由、Socket.IO
-│   ├── route_planner.py         # 代价矩阵构建、SCDP、缓存、健康评分
-│   ├── api_client.py            # 高德 Web 服务封装（地理编码/驾车距离/路况）
-│   ├── utils.py                 # estimate_aqi 封装
-│   ├── fetch_aqi_openmeteo.py   # Open-Meteo 实时 AQI 抓取
-│   ├── main.py                  # 命令行规划入口（无需启动 Web 服务）
-│   ├── config.example.py        # 配置模板（复制为 config.py）
+├── python/                      # Flask backend
+│   ├── app.py                   # Application entry point, routes, Socket.IO
+│   ├── route_planner.py         # Cost matrix construction, SCDP, caching, health score
+│   ├── api_client.py            # AMap Web Service wrapper (geocoding / driving distance / traffic)
+│   ├── utils.py                 # estimate_aqi wrapper
+│   ├── fetch_aqi_openmeteo.py   # Open-Meteo real-time AQI retrieval
+│   ├── main.py                  # Command-line planning entry point (no web service required)
+│   ├── config.example.py        # Configuration template (copy to config.py)
 │   └── requirements.txt
-├── frontend/                    # Vue 3 + Vite 前端
+├── frontend/                    # Vue 3 + Vite frontend
 │   ├── src/
-│   │   ├── components/          # HomeView 等页面组件
-│   │   ├── composables/         # useAMapStrict 地图封装
+│   │   ├── components/          # Page components such as HomeView
+│   │   ├── composables/         # useAMapStrict map wrapper
 │   │   └── locales/             # zh.js / en.js
-│   ├── index.html               # 中文入口
-│   ├── index_en.html            # 英文入口
-│   ├── .env.example             # 前端环境变量模板
+│   ├── index.html               # Chinese entry point
+│   ├── index_en.html            # English entry point
+│   ├── .env.example             # Frontend environment variable template
 │   └── package.json
-├── cpp/                         # C++ TSP 加速模块
+├── cpp/                         # C++ TSP acceleration module
 │   ├── include/TSP.h
 │   ├── src/TSP.cpp
-│   ├── bindings.cpp             # pybind11 绑定
+│   ├── bindings.cpp             # pybind11 bindings
 │   └── CMakeLists.txt
-├── experiments/                 # 实验与复现资产
-│   ├── scripts/                 # 基准测试、制表、绘图脚本
-│   ├── data/                    # 原始结果 JSON、硬件环境
-│   ├── results/                 # 生成的表格、日志、路径明细文档
-│   ├── docs/                    # 实验报告（中/英）、讨论
+├── experiments/                 # Experiment and reproducibility assets
+│   ├── scripts/                 # Benchmark, table-generation and plotting scripts
+│   ├── data/                    # Raw result JSON, hardware environment
+│   ├── results/                 # Generated tables, logs, path-detail documents
+│   ├── docs/                    # Experiment reports (Chinese/English), discussion
 │   └── requirements.txt
-├── figures/                     # 论文图件（界面截图、敏感性分析）
-├── docs/diagrams/               # Mermaid 源文件与导出图（架构/流程）
-├── diagrams/                    # 交互式流程图（HTML，可直接打开）
-├── start.bat                    # Windows 一键启动
+├── figures/                     # Paper figures (UI screenshots, sensitivity analysis)
+├── docs/diagrams/               # Mermaid sources and exported images (architecture/pipeline)
+├── diagrams/                    # Interactive flow charts (HTML, open directly in a browser)
+├── start.bat                    # One-click launcher for Windows
 ├── LICENSE
 └── README.md
 ```
 
 ---
 
-## 6. 快速开始
+## 6. Quick Start
 
-### 6.1 环境要求
+### 6.1 Requirements
 
-| 依赖 | 版本 |
+| Dependency | Version |
 | --- | --- |
-| Python | 3.9（与预编译 C++ 模块 ABI 一致；其他版本需自行重编译） |
-| Node.js | ≥ 20.19（Vite 8 要求） |
-| CMake | ≥ 3.10（仅编译 C++ 模块时需要） |
-| 高德地图 | Web 服务 Key + JS API 安全密钥（[控制台](https://console.amap.com/)） |
+| Python | 3.9 (matches the ABI of the pre-built C++ module; other versions require recompilation) |
+| Node.js | ≥ 20.19 (required by Vite 8) |
+| CMake | ≥ 3.10 (only needed to build the C++ module) |
+| AMap | Web Service Key + JS API security key ([console](https://console.amap.com/)) |
 
-### 6.2 后端
+### 6.2 Backend
 
 ```bash
 cd python
 python -m venv venv
-# Windows: venv\Scripts\activate ；Linux/macOS: source venv/bin/activate
+# Windows: venv\Scripts\activate ; Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
 copy config.example.py config.py      # Windows
 # cp config.example.py config.py      # Linux / macOS
-# 编辑 config.py，填入 AMAP_API_KEY 与 AMAP_SECURITY_CODE
+# Edit config.py and fill in AMAP_API_KEY
 python app.py                          # http://localhost:5000
 ```
 
-### 6.3 前端
+### 6.3 Frontend
 
 ```bash
 cd frontend
 npm install
 copy .env.example .env                 # Windows
 # cp .env.example .env                 # Linux / macOS
-# 编辑 .env，填入 VITE_AMAP_SECURITY_CODE
+# Edit .env and fill in VITE_AMAP_SECURITY_CODE
 npm run dev                            # http://localhost:3000
 ```
 
-中文界面：<http://localhost:3000/index.html>；英文界面：<http://localhost:3000/index_en.html>。
+Chinese interface: <http://localhost:3000/index.html>; English interface: <http://localhost:3000/index_en.html>.
 
-### 6.4 编译 C++ 加速模块（可选）
+### 6.4 Building the C++ acceleration module (optional)
 
 ```bash
 cd cpp
@@ -211,7 +211,7 @@ cmake ..
 cmake --build . --config Release
 ```
 
-产物 `_core.pyd`（Windows）或 `_core.so`（Linux）会自动输出到 `python/`。若 CMake 找不到 pybind11，可设置环境变量再配置：
+The artifact `_core.pyd` (Windows) or `_core.so` (Linux) is emitted automatically into `python/`. If CMake cannot locate pybind11, set the environment variable before configuring:
 
 ```bash
 pip install pybind11
@@ -221,18 +221,18 @@ $env:pybind11_DIR = python -c "import pybind11; print(pybind11.get_cmake_dir())"
 export pybind11_DIR=$(python -c "import pybind11; print(pybind11.get_cmake_dir())")
 ```
 
-未编译时系统自动使用 Python SCDP，功能不受影响。
+When the module is not compiled, the system automatically uses the Python SCDP implementation and functionality is unaffected.
 
-### 6.5 命令行规划（可选）
+### 6.5 Command-line planning (optional)
 
-不启动 Web 服务，直接在终端验证后端与算法链路：
+Validate the backend and the algorithm pipeline directly in a terminal without starting the web service:
 
 ```bash
 cd python
 python main.py "天府广场,宽窄巷子,武侯祠" --preference balanced
 ```
 
-### 6.6 一键启动（Windows）
+### 6.6 One-click launcher (Windows)
 
 ```bat
 start.bat
@@ -240,27 +240,27 @@ start.bat
 
 ---
 
-## 7. 配置说明
+## 7. Configuration
 
-| 位置 | 变量 | 说明 |
+| Location | Variable | Description |
 | --- | --- | --- |
-| `python/config.py` | `AMAP_API_KEY` | 高德 Web 服务 Key（后端地理编码/路径规划） |
-| `python/config.py` | `MAX_DESTINATIONS` | 目的地上限，默认 7 |
-| `python/config.py` | `DEFAULT_ALPHA` / `DEFAULT_BETA` | balanced 模式默认权重 |
-| `python/config.py` | `REQUEST_TIMEOUT` | 高德接口超时（秒） |
-| `frontend/.env` | `VITE_AMAP_SECURITY_CODE` | 高德 JS API 安全密钥，注入到 `index.html` 的 `window._AMapSecurityConfig` |
-| 环境变量 | `FLASK_PORT` | 后端端口，默认 5000 |
-| 环境变量 | `SECRET_KEY` | Flask 会话密钥（生产环境务必设置） |
+| `python/config.py` | `AMAP_API_KEY` | AMap Web Service Key (backend geocoding / route planning) |
+| `python/config.py` | `MAX_DESTINATIONS` | Maximum number of destinations, default 7 |
+| `python/config.py` | `DEFAULT_ALPHA` / `DEFAULT_BETA` | Default weights for `balanced` mode |
+| `python/config.py` | `REQUEST_TIMEOUT` | AMap API timeout (seconds) |
+| `frontend/.env` | `VITE_AMAP_SECURITY_CODE` | AMap JS API security key, injected into `window._AMapSecurityConfig` in `index.html` |
+| Environment variable | `FLASK_PORT` | Backend port, default 5000 |
+| Environment variable | `SECRET_KEY` | Flask session key (must be set in production) |
 
-> ⚠️ `config.py`、`frontend/.env` 已被 `.gitignore` 忽略，请勿提交真实密钥。若密钥曾出现在历史提交中，请在控制台**重置密钥**后再公开仓库。
+> ⚠️ `config.py` and `frontend/.env` are ignored by `.gitignore`; never commit real keys. If a key has ever appeared in a historical commit, **reset the key** in the console before making the repository public.
 
 ---
 
-## 8. API 文档
+## 8. API Documentation
 
-### `POST /api/plan` — 路线规划
+### `POST /api/plan` — route planning
 
-请求（两种模式任选其一）：
+Request (either of the two modes):
 
 ```json
 {
@@ -279,7 +279,7 @@ start.bat
 }
 ```
 
-响应（节选）：
+Response (excerpt):
 
 ```json
 {
@@ -297,131 +297,131 @@ start.bat
 }
 ```
 
-错误码：`400` 参数非法 / 超限；`500` 服务异常（含 `type`、`message`）。
+Error codes: `400` invalid or out-of-range parameters; `500` service error (includes `type` and `message`).
 
-### 导航接口
+### Navigation endpoints
 
-| 方法 | 路径 | 说明 |
+| Method | Path | Description |
 | --- | --- | --- |
-| POST | `/api/navigate` | 开始导航（`route_id` + `current_location [lng, lat]`） |
-| POST | `/api/navigate/update` | 更新位置，返回下一转向与剩余里程 |
-| POST | `/api/navigate/cancel` | 结束导航 |
-| GET | `/api/health` | 健康检查 |
+| POST | `/api/navigate` | Start navigation (`route_id` + `current_location [lng, lat]`) |
+| POST | `/api/navigate/update` | Update position, returning the next turn and remaining distance |
+| POST | `/api/navigate/cancel` | End navigation |
+| GET | `/api/health` | Health check |
 
-### Socket.IO 事件
+### Socket.IO events
 
-| 事件 | 方向 | 载荷 |
+| Event | Direction | Payload |
 | --- | --- | --- |
-| `start_navigation` | 客户端 → 服务端 | `{ route_id, current_location }` |
-| `update_position` | 客户端 → 服务端 | `{ route_id, current_location }` |
-| `stop_navigation` | 客户端 → 服务端 | `{ route_id }` |
-| `navigation_started` / `navigation_updated` / `navigation_stopped` | 服务端 → 客户端 | 状态、位置、下一转向、剩余距离与时间 |
+| `start_navigation` | client → server | `{ route_id, current_location }` |
+| `update_position` | client → server | `{ route_id, current_location }` |
+| `stop_navigation` | client → server | `{ route_id }` |
+| `navigation_started` / `navigation_updated` / `navigation_stopped` | server → client | Status, position, next turn, remaining distance and time |
 
 ---
 
-## 9. 实验数据与复现
+## 9. Experimental Data and Reproducibility
 
-### 9.1 数据资产（`experiments/data/`）
+### 9.1 Data assets (`experiments/data/`)
 
-| 文件 | 内容 | 结构 |
+| File | Content | Structure |
 | --- | --- | --- |
-| `raw_results.json` | 主实验原始结果（表 1–7 全部指标） | `{hardware, table1_2, table3, table4, table5, table6, table7}` |
-| `extra_algos_results.json` | 扩展算法（Greedy/GA/SCDP/…）逐规模结果 | 键为节点数 `5/8/10/12` |
-| `path_details.json` | 各规模最优路径明细（节点序列、代价） | 键为节点数 `5/8/10/12/15` |
-| `weight_sensitivity_data.json` | α 扫描的敏感性实验数据 | `{alpha_values, distances, aqi_exposures, comprehensive_costs}` |
-| `weight_sensitivity_data_zh.json` | 中文版敏感性数据（含路径） | 同上 + `beta_values, paths` |
-| `hw_env.txt` | 实验硬件与软件环境快照 | 纯文本 |
+| `raw_results.json` | Raw results of the main experiment (all metrics of Tables 1–7) | `{hardware, table1_2, table3, table4, table5, table6, table7}` |
+| `extra_algos_results.json` | Per-scale results for the extended algorithms (Greedy/GA/SCDP/…) | Keys are node counts `5/8/10/12` |
+| `path_details.json` | Optimal path details for each scale (node sequence, cost) | Keys are node counts `5/8/10/12/15` |
+| `weight_sensitivity_data.json` | Data from the α-sweep sensitivity experiment | `{alpha_values, distances, aqi_exposures, comprehensive_costs}` |
+| `weight_sensitivity_data_zh.json` | Chinese-language sensitivity data (with routes) | As above + `beta_values, paths` |
+| `hw_env.txt` | Snapshot of the experimental hardware and software environment | Plain text |
 
-结果与图表位于 `experiments/results/`：
+Results and tables are located in `experiments/results/`:
 
-| 文件 | 内容 |
+| File | Content |
 | --- | --- |
-| `paper_tables.tex` / `table1_2.tex` | 论文三线表（英文 LaTeX） |
-| `paper_tables_zh.md` / `paper_tables_zh.tex` | 中文表格 |
-| `Discussion.txt` | 结果讨论要点 |
-| `benchmark_output*.txt` | 基准运行日志（早期/最新） |
-| `生成地名版本的路径表.docx` | 附录：地名映射后的路径明细表 |
+| `paper_tables.tex` / `table1_2.tex` | Paper booktabs-style tables (English LaTeX) |
+| `paper_tables_zh.md` / `paper_tables_zh.tex` | Chinese-language tables |
+| `Discussion.txt` | Key discussion points on the results |
+| `benchmark_output*.txt` | Benchmark run logs (early/latest) |
+| `生成地名版本的路径表.docx` | Appendix: path-detail table after place-name mapping |
 
-图件：`figures/`（中英文界面截图、图 4 权重敏感性分析 PNG/PDF）；架构与流程：`docs/diagrams/`（Mermaid 源文件 `.mmd` + 导出 PNG）；`diagrams/` 为可直接在浏览器打开的交互式流程图。
+Figures: `figures/` (Chinese and English interface screenshots, Figure 4 weight-sensitivity analysis as PNG/PDF); architecture and pipeline: `docs/diagrams/` (Mermaid sources `.mmd` + exported PNG); `diagrams/` contains interactive flow charts that can be opened directly in a browser.
 
-### 9.2 随机种子与超参数（复现关键）
+### 9.2 Random seeds and hyper-parameters (critical for reproduction)
 
-| 参数 | 取值 | 位置 |
+| Parameter | Value | Location |
 | --- | --- | --- |
-| 全局种子 `random.seed` / `np.random.seed` | `42` | `run_sci_benchmark.py`、`run_extra_algos.py` |
-| 各规模算例种子 `SEED_MAP` | `{5: 47, 8: 361, 10: 52, 12: 54, 15: 57}` | `run_sci_benchmark.py` |
-| 独立重复次数 `N_REPS` / `N_RUNS` | `30`（SCDP 确定性算法运行 1 次） | 同上 |
-| GA 参数 | 种群 200、迭代 500、交叉 0.8、变异 0.1 | 同上 |
-| 归一化 | Min-Max，距离矩阵排除对角线 | `build_cost_matrix` |
-| 显著性检验 | Wilcoxon 符号秩检验，`p < 0.05` | 实验报告 |
+| Global seed `random.seed` / `np.random.seed` | `42` | `run_sci_benchmark.py`, `run_extra_algos.py` |
+| Per-scale instance seed `SEED_MAP` | `{5: 47, 8: 361, 10: 52, 12: 54, 15: 57}` | `run_sci_benchmark.py` |
+| Independent repetitions `N_REPS` / `N_RUNS` | `30` (the deterministic SCDP algorithm is run once) | Same as above |
+| GA parameters | population 200, 500 iterations, crossover 0.8, mutation 0.1 | Same as above |
+| Normalisation | Min-Max, diagonal excluded from the distance matrix | `build_cost_matrix` |
+| Significance test | Wilcoxon signed-rank test, `p < 0.05` | Experiment report |
 
-### 9.3 一键复现
+### 9.3 One-command reproduction
 
 ```bash
 pip install -r experiments/requirements.txt
 
-python experiments/scripts/run_sci_benchmark.py     # 主实验 → data/raw_results.json + results/table1_2.tex
-python experiments/scripts/run_extra_algos.py       # 扩展算法 → data/extra_algos_results.json
-python experiments/scripts/gen_path_detail.py       # 路径明细 → data/path_details.json
-python experiments/scripts/generate_paper_tables.py # 英文表格 → results/paper_tables.tex
-python experiments/scripts/generate_paper_tables_zh.py # 中文表格 → results/paper_tables_zh.md
-python experiments/scripts/plot_sensitivity.py      # 图 4 → figures/Fig4_Weight_Sensitivity.png
-python experiments/scripts/verify_results.py        # 结果一致性校验
+python experiments/scripts/run_sci_benchmark.py     # Main experiment → data/raw_results.json + results/table1_2.tex
+python experiments/scripts/run_extra_algos.py       # Extended algorithms → data/extra_algos_results.json
+python experiments/scripts/gen_path_detail.py       # Path details → data/path_details.json
+python experiments/scripts/generate_paper_tables.py # English tables → results/paper_tables.tex
+python experiments/scripts/generate_paper_tables_zh.py # Chinese tables → results/paper_tables_zh.md
+python experiments/scripts/plot_sensitivity.py      # Figure 4 → figures/Fig4_Weight_Sensitivity.png
+python experiments/scripts/verify_results.py        # Result consistency check
 ```
 
-> 完整实验含 GA 多次重复，耗时较长；所有输出路径均相对仓库根目录，无需修改脚本。
-> 实验说明详见 [`experiments/README.md`](experiments/README.md) 与 [`experiments/docs/SCI_Experiments_CN.md`](experiments/docs/SCI_Experiments_CN.md)。
+> The full experiment includes repeated GA runs and therefore takes a long time; all output paths are relative to the repository root, so no script modification is required.
+> Detailed experiment notes are available in [`experiments/README.md`](experiments/README.md) and [`experiments/docs/SCI_Experiments_CN.md`](experiments/docs/SCI_Experiments_CN.md).
 
-### 9.4 主要结果（节选）
+### 9.4 Main results (excerpt)
 
-综合成本 `C = 0.5D + 0.5AQI`（n = 12）：
+Composite cost `C = 0.5D + 0.5AQI` (n = 12):
 
-| 算法 | 距离 (km) | 综合成本 | 最优误差 |
+| Algorithm | Distance (km) | Composite cost | Optimality gap |
 | --- | ---: | ---: | ---: |
 | Greedy | 139.51 | 6.1235 | 8.10% |
 | GA | 119.43 | 5.7152 | 0.89% |
 | **SCDP** | **117.16** | **5.6647** | **0.00%** |
 
-健康导航 vs 传统最短路线（n = 8）：
+Health-aware navigation vs the conventional shortest route (n = 8):
 
-| 路线 | 距离 (km) | 污染暴露 | 健康评分 |
+| Route | Distance (km) | Pollution exposure | Health score |
 | --- | ---: | ---: | ---: |
-| 传统最短 | 78.35 | 255.32 | 94.95 |
-| AQI 优化 | 88.08 | 235.56 | 96.47 |
-| 变化 | +12.4% | **−7.74%** | **+1.52** |
+| Conventional shortest | 78.35 | 255.32 | 94.95 |
+| AQI-optimised | 88.08 | 235.56 | 96.47 |
+| Change | +12.4% | **−7.74%** | **+1.52** |
 
-计算耗时：n ≤ 12 时 SCDP < 38 ms；n = 15 时约 465 ms，仍满足交互式导航需求。完整数据见 `experiments/data/raw_results.json`。
+Computation time: SCDP < 38 ms for n ≤ 12; about 465 ms for n = 15, still meeting interactive navigation requirements. Full data are available in `experiments/data/raw_results.json`.
 
 ---
 
-## 10. 数据可用性声明
+## 10. Data Availability Statement
 
-投稿系统要求填写"数据可用性"时可直接使用以下文本：
+The following text can be used directly when the submission system requests a "data availability" statement:
 
 > **Data availability.** All source code, experiment scripts, raw result files, random seeds and hyper-parameter settings supporting the findings of this study are openly available in the *Rongcheng Jingtu* repository at `https://github.com/RUO-MO/rongcheng-jingtu`. The archived snapshot analysed in this study is available at <https://doi.org/10.5281/zenodo.23939568> (version DOI); the concept DOI covering all versions is <https://doi.org/10.5281/zenodo.23939567>. No restricted or proprietary data were used. Air quality observations were retrieved from the Open-Meteo Air Quality API (<https://open-meteo.com/>); road-network distances were obtained via the AMap Web Service API under its standard terms of use.
 
-本数据集已完成归档：GitHub Release `v1.0.0` 已由 Zenodo 自动收录，版本 DOI 为 `10.5281/zenodo.23939568`，概念 DOI 为 `10.5281/zenodo.23939567`。投稿页填写时，*Link to data repository* 填 `https://doi.org/10.5281/zenodo.23939568`，*Repository name* 选 **Zenodo**，*Source of data* 选 **Original data**。
+The dataset has been archived: GitHub Release `v1.0.0` was automatically harvested by Zenodo, with version DOI `10.5281/zenodo.23939568` and concept DOI `10.5281/zenodo.23939567`. On the submission page, set *Link to data repository* to `https://doi.org/10.5281/zenodo.23939568`, choose **Zenodo** as *Repository name*, and **Original data** as *Source of data*.
 
-仓库根目录的 [`.zenodo.json`](.zenodo.json) 与 [`CITATION.cff`](CITATION.cff) 已写入最终作者列表与 DOI。后续每次发布 GitHub Release，Zenodo 都会自动归档并生成新的版本 DOI，概念 DOI 保持不变。
+The [`.zenodo.json`](.zenodo.json) and [`CITATION.cff`](CITATION.cff) files at the repository root already contain the final author list and DOI. Every subsequent GitHub Release will be archived automatically by Zenodo with a new version DOI, while the concept DOI remains unchanged.
 
 ---
 
-## 11. 生产部署
+## 11. Production Deployment
 
-前端构建：
+Frontend build:
 
 ```bash
-cd frontend && npm run build     # 产物在 frontend/dist
+cd frontend && npm run build     # output in frontend/dist
 ```
 
-后端（4 进程 Eventlet）：
+Backend (4 Eventlet processes):
 
 ```bash
 cd python
 gunicorn -w 4 -k eventlet -b 127.0.0.1:5000 app:app
 ```
 
-Nginx 关键配置：
+Key Nginx configuration:
 
 ```nginx
 location /api/      { proxy_pass http://127.0.0.1:5000; }
@@ -433,24 +433,24 @@ location /socket.io/ {
 }
 ```
 
-生产环境注意：设置 `SECRET_KEY`；`CORS` / `cors_allowed_origins` 收敛到实际域名；为高德接口配置限流与缓存。
+Production notes: set `SECRET_KEY`; restrict `CORS` / `cors_allowed_origins` to the actual domain; configure rate limiting and caching for the AMap APIs.
 
 ---
 
-## 12. 常见问题
+## 12. Frequently Asked Questions
 
-| 现象 | 排查 |
+| Symptom | Troubleshooting |
 | --- | --- |
-| 地图空白 / 报 `INVALID_USER_SCODE` | `frontend/.env` 未填写或未重启 Vite；密钥与后端 Key 不同账号 |
-| 地理编码失败 | `python/config.py` 的 `AMAP_API_KEY` 无效、无 Web 服务权限或额度用尽 |
-| `ImportError: _core` | 未编译 C++ 模块（可忽略，自动走 Python），或 Python 版本与 `.pyd` ABI 不符 |
-| AQI 恒为 100 / 50 | Open-Meteo 不可达，触发默认值；检查网络与超时 |
-| 规划返回 400 | 目的地超过 7 个、坐标格式非 `[lng, lat]`、`alpha/beta` 非数字 |
-| Vite 启动报 Node 版本错误 | 升级至 Node.js ≥ 20.19 |
+| Blank map / `INVALID_USER_SCODE` error | `frontend/.env` not filled in or Vite not restarted; the key belongs to a different account than the backend Key |
+| Geocoding failure | Invalid `AMAP_API_KEY` in `python/config.py`, missing Web Service permission, or exhausted quota |
+| `ImportError: _core` | The C++ module has not been compiled (harmless: Python is used automatically), or the Python version does not match the `.pyd` ABI |
+| AQI always 100 / 50 | Open-Meteo unreachable, triggering the default value; check network connectivity and timeouts |
+| Planning returns 400 | More than 7 destinations, coordinates not in `[lng, lat]` form, or `alpha/beta` not numeric |
+| Vite reports a Node version error on startup | Upgrade to Node.js ≥ 20.19 |
 
 ---
 
-## 13. 引用
+## 13. Citation
 
 ```bibtex
 @dataset{rongcheng_jingtu,
@@ -466,8 +466,8 @@ location /socket.io/ {
 
 ---
 
-## 14. 许可证与致谢
+## 14. License and Acknowledgements
 
-本项目采用 [MIT License](LICENSE)。空气质量数据来自 [Open-Meteo](https://open-meteo.com/)，地图与路网服务由[高德开放平台](https://lbs.amap.com/)提供；实验图表由 NumPy / SciPy / Matplotlib 生成。
+This project is released under the [MIT License](LICENSE). Air quality data are provided by [Open-Meteo](https://open-meteo.com/); map and road-network services are provided by the [AMap Open Platform](https://lbs.amap.com/); experimental figures were generated with NumPy / SciPy / Matplotlib.
 
-问题反馈请提交 GitHub Issues。
+Please report issues via GitHub Issues.
