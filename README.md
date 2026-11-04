@@ -402,6 +402,8 @@ python experiments/scripts/verify_results.py        # 结果一致性校验
 
 建议归档流程：GitHub 仓库 → Zenodo（或 figshare）Release → 获得 DOI → 回填投稿页的 *Data repository link*、*Repository name*（选 GitHub / Zenodo）、*Source of data*（选 **Original data**）。
 
+仓库根目录已提供 Zenodo 元数据 [`.zenodo.json`](.zenodo.json) 与 [`CITATION.cff`](CITATION.cff)：在 Zenodo 中启用该仓库的 GitHub 集成后，每次发布 GitHub Release 都会自动归档并生成版本 DOI；拿到 DOI 后请把上面的链接与引用信息替换为 `https://doi.org/...`。
+
 ---
 
 ## 11. 生产部署

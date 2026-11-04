@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this dataset or the accompanying code, please cite it using the metadata below."
+type: dataset
+title: "Rongcheng Jingtu Multi-Destination Route Planning Dataset: Distance and Air-Quality Matrices, Optimal Routes, and Benchmark Results"
+abstract: >-
+  Research data, source code and experiment scripts for a health-aware
+  multi-destination route planning system that optimises a bi-objective cost
+  combining driving distance and air-quality exposure. The dataset includes
+  distance and AQI exposure matrices for instance sizes n = 5, 8, 10, 12 and 15,
+  optimal routes produced by state-compressed dynamic programming (SCDP),
+  Greedy and genetic algorithm baselines, raw measurements behind the reported
+  tables, weight-sensitivity sweeps, and the hardware environment snapshot.
+  Fixed random seeds and reproduction commands are documented in README.md and
+  experiments/README.md.
+authors:
+  - name: "Rongcheng Jingtu Contributors"
+repository-code: "https://github.com/RUO-MO/rongcheng-jingtu"
+url: "https://github.com/RUO-MO/rongcheng-jingtu"
+license: MIT
+version: "1.0.0"
+date-released: "2026-11-04"
+keywords:
+  - path planning
+  - dynamic programming
+  - state compression
+  - multi-objective optimization
+  - air quality
+  - health-aware navigation
+  - traveling salesman problem
+  - reproducible research

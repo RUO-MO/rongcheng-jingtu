@@ -1,0 +1,25 @@
+{
+  "title": "Rongcheng Jingtu Multi-Destination Route Planning Dataset: Distance and Air-Quality Matrices, Optimal Routes, and Benchmark Results",
+  "description": "<p><strong>Rongcheng Jingtu</strong> is a health-aware navigation system for Chengdu that optimises multi-destination routes over a bi-objective cost combining driving distance and air-quality exposure. This record contains the complete research data, source code and experiment scripts supporting the accompanying study.</p><p><strong>Dataset contents</strong> (<code>experiments/data/</code>):</p><ul><li><code>path_details.json</code> &mdash; distance matrices <em>D</em> and AQI exposure matrices <em>A</em> for instance sizes n = 5, 8, 10, 12 and 15, together with the optimal routes and costs produced by SCDP, Greedy and GA;</li><li><code>raw_results.json</code> &mdash; raw measurements behind Tables 1&ndash;7 (distance, AQI exposure, composite cost, runtime, functional tests);</li><li><code>extra_algos_results.json</code> &mdash; per-run results of the extended algorithm comparison;</li><li><code>weight_sensitivity_data.json</code> and <code>weight_sensitivity_data_zh.json</code> &mdash; weight-sweep data for the sensitivity analysis;</li><li><code>hw_env.txt</code> &mdash; hardware and software environment snapshot.</li></ul><p><strong>Code and reproducibility</strong>: the record also includes the state-compressed dynamic programming solver (C++ with pybind11 bindings and a pure Python fallback), the Flask backend, the Vue 3 frontend and all experiment scripts. Random seeds (global seed 42; per-size seeds 47/361/52/54/57 for n = 5/8/10/12/15), hyper-parameters and reproduction commands are documented in <code>README.md</code> and <code>experiments/README.md</code>.</p><p><strong>License</strong>: MIT. Code and data are released for academic reuse with attribution.</p>",
+  "creators": [
+    {
+      "name": "Rongcheng Jingtu Contributors"
+    }
+  ],
+  "keywords": [
+    "path planning",
+    "dynamic programming",
+    "state compression",
+    "multi-objective optimization",
+    "air quality",
+    "health-aware navigation",
+    "traveling salesman problem",
+    "reproducible research",
+    "Chengdu"
+  ],
+  "license": "MIT",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "version": "1.0.0",
+  "language": "eng"
+}
