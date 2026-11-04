@@ -40,8 +40,7 @@ frontend/
 ├── vite.config.js             # 双入口构建 + API/Socket.IO 代理
 ├── .env.example               # 环境变量模板
 ├── public/
-│   ├── favicon.svg
-│   └── icons.svg
+│   └── favicon.svg
 └── src/
     ├── main_zh.js / main_en.js # 两套入口的挂载脚本
     ├── App.vue
