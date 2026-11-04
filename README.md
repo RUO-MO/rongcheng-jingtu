@@ -455,7 +455,7 @@ location /socket.io/ {
 ```bibtex
 @software{rongcheng_jingtu,
   title  = {蓉城净途：面向空气质量的健康路径导航系统},
-  author = {Rongcheng Jingtu Contributors},
+  author = {Yan, Min and Ma, Rui and Yang, Yan and Luo, Zhangmin and He, Enyao},
   year   = {2026},
   note   = {State-compressed dynamic programming for bi-objective multi-destination routing},
   url    = {https://github.com/RUO-MO/rongcheng-jingtu}

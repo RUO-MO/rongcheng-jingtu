@@ -13,7 +13,21 @@ abstract: >-
   Fixed random seeds and reproduction commands are documented in README.md and
   experiments/README.md.
 authors:
-  - name: "Rongcheng Jingtu Contributors"
+  - given-names: Min
+    family-names: Yan
+    affiliation: Chengdu Jincheng College
+  - given-names: Rui
+    family-names: Ma
+    affiliation: Chengdu Jincheng College
+  - given-names: Yan
+    family-names: Yang
+    affiliation: Chengdu Jincheng College
+  - given-names: Zhangmin
+    family-names: Luo
+    affiliation: Chengdu Jincheng College
+  - given-names: Enyao
+    family-names: He
+    affiliation: Chengdu Jincheng College
 repository-code: "https://github.com/RUO-MO/rongcheng-jingtu"
 url: "https://github.com/RUO-MO/rongcheng-jingtu"
 license: MIT
